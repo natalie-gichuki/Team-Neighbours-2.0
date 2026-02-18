@@ -12,7 +12,7 @@ class Member(db.Model):
     phone = db.Column(db.String(20), unique=True, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     password_hash = db.Column(db.Text, nullable=False)
-    role = db.Column(db.String(50), nullable=False, default='customer')
+    role = db.Column(db.String(50), nullable=False, default='member')
     
 
     # VALIDATION

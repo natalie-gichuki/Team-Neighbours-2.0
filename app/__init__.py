@@ -20,7 +20,7 @@ def create_app(config_name = "development"):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
     app.config['SWAGGER'] = {
-        'title': 'Team Neighbours 22 chama API',
+        'title': 'Team Neighbours 2.0 chama API',
         'uiversion': 3,
         'securityDefinitions': {
             'Bearer': {
