@@ -1,0 +1,15 @@
+                                  List of databases
+       Name        |  Owner   | Encoding | Collate |  Ctype  |   Access privileges   
+-------------------+----------+----------+---------+---------+-----------------------
+ heartsight_db     | natalie  | UTF8     | C.UTF-8 | C.UTF-8 | =Tc/natalie          +
+                   |          |          |         |         | natalie=CTc/natalie
+ postgres          | postgres | UTF8     | C.UTF-8 | C.UTF-8 | 
+ teamneighbours2   | postgres | UTF8     | C.UTF-8 | C.UTF-8 | 
+ teamneighbours_db | nat2011  | UTF8     | C.UTF-8 | C.UTF-8 | =Tc/nat2011          +
+                   |          |          |         |         | nat2011=CTc/nat2011
+ template0         | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+                   |          |          |         |         | postgres=CTc/postgres
+ template1         | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+                   |          |          |         |         | postgres=CTc/postgres
+(6 rows)
+
