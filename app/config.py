@@ -10,14 +10,14 @@ class Development(Config):
     DEBUG: True
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
-        "postgresql://natalie:Natali32007.@localhost:5432/teamNeighbours2"
+        "postgresql://natto:Natali32007.@localhost:5432/teamNeighbours2"
     )
 
 class Testing(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
-        "postgresql://natalie:Natali32007.@localhost:5432/teamNeighbours2"
+        "postgresql://natto:Natali32007.@localhost:5432/teamNeighbours2"
     )
     PRESERVE_CONTEXT_ON_EXCEPTION = False
 
@@ -25,7 +25,7 @@ class Production(Config):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
-        "postgresql://natalie:Natali32007.@localhost:5432/teamNeighbours2"
+        "postgresql://natto:Natali32007.@localhost:5432/teamNeighbours2"
     )
 
 
