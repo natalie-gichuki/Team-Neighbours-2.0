@@ -45,7 +45,12 @@ def create_app(config_name = "development"):
     jwt.init_app(app)
     swagger.init_app(app)
 
-    from app import models
+    from app.models.attendance import Attendance
+    from app.models.contribution import Contribution
+    from app.models.fines import Fine
+    from app.models.loans import Loan
+    from app.models.members import Member
+    
     from app.routes import (
         attendance_routes,
         auth_routes,
