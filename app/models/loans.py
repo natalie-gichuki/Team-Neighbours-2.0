@@ -8,7 +8,7 @@ class Loan(db.Model):
     amount = db.Column(db.Numeric(10, 2), nullable=False)
     date = db.Column(db.Date, nullable=False)
 
-    member = db.relationship('Member', back_populates='fines')
+    member = db.relationship('Member', back_populates='loans')
 
     def __repr__(self):
         return f'<Fine {self.id} - Member {self.member_id} on {self.date}>'
