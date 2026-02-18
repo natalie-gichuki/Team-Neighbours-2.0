@@ -50,7 +50,7 @@ def create_app(config_name = "development"):
     from app.models.fines import Fine
     from app.models.loans import Loan
     from app.models.members import Member
-    
+
     from app.routes import (
         attendance_routes,
         auth_routes,
@@ -62,6 +62,12 @@ def create_app(config_name = "development"):
     )
 
     # REGISTER BLUEPRINTS
+    app.register_blueprint(attendance_routes.attendance_bp)
+    app.register_blueprint(auth_routes.auth_bp)
+    app.register_blueprint(contribution_routes.contribution_bp)
+    app.register_blueprint(fine_routes.fine_bp)
+    app.register_blueprint(loan_routes.loan_bp)
+    app.register_blueprint(member_routes.member_bp)
 
 
 
