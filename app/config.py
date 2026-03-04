@@ -7,7 +7,7 @@ class Config:
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "fallback_jwt_secret_key")
 
 class Development(Config):
-    DEBUG: True
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
         "postgresql://natto:Natali32007.@localhost:5432/teamNeighbours2"
