@@ -73,9 +73,6 @@ def register():
     if not all([name, email, phone, gender, password]):
         return jsonify({"msg": "All fields are required"}), 400
     
-    if role == "admin":
-        return jsonify({"msg": "Admin accounts cannot be created here"}), 403
-
     
     # Check if user exists
     existing_user = Member.query.filter(

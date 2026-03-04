@@ -243,4 +243,4 @@ def enable_member(member_id):
 
     member.role = 'member'
     db.session.commit()
-    return jsonify({"msg": f"Member {member.username} enabled"}), 200
+    return jsonify({"msg": f"Member {member.name} enabled"}), 200

@@ -275,7 +275,7 @@ def edit_fine(loan_id):
     'security': [{'Bearer': []}],
     'parameters': [
         {
-            'name': 'fine_id',
+            'name': 'loan_id',
             'in': 'path',
             'required': True,
             'type': 'integer'

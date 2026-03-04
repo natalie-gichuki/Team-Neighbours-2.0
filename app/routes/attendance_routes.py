@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app import db
 from app.models.attendance import Attendance
 from flasgger.utils import swag_from
+from datetime import datetime
 from app.utils.auth_helpers import role_required
 
 attendance_bp = Blueprint('attendance', __name__)
@@ -58,14 +59,19 @@ def record_attendance():
 
     #Basic validation to avid key error
     member_id = data.get('member_id')
-    date = data.get('date')
+    date_str = data.get('date')
     status = data.get('status')
 
-    if not member_id or not date or not status:
+    if not member_id or not date_str or not status:
         return jsonify({"msg": "Missing required fields: member_id, date, status"}), 400
     
+    # Convert date string to datetime.date
+    try:
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        return jsonify({"msg": "Date must be in YYYY-MM-DD format"}), 400
     # Create a new attendance record
-    attendance = Attendance(member_id=member_id, date=date, status=status)
+    attendance = Attendance(member_id=member_id, date=date_obj, status=status)
     db.session.add(attendance)
     db.session.commit()
 

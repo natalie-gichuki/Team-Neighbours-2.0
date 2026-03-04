@@ -13,7 +13,7 @@ class Fine(db.Model):
     def __repr__(self):
         return f'<Fine {self.id} - Member {self.member_id} on {self.date}>'
     
-    def __repr__(self):
+    def to_dict(self):
         return{
             'id': self.id,
             'member_id': self.member_id,
