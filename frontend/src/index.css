@@ -1,0 +1,11 @@
+:root {
+    --brown-dark: #5C4033;
+    --brown-medium: #8B5E3C;
+    --cream: #F5E6CC;
+    --beige: #EAD2A8;
+    --gold-accent: #D4A373;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
