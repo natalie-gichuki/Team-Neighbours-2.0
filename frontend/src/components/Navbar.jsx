@@ -8,6 +8,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const { user } = useSelector((state) => state.auth);
+
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
@@ -45,6 +46,20 @@ const Navbar = () => {
                     <Link to="/" className={linkClass}>
                         Home
                     </Link>
+
+                    {/* Admin contributions */}
+                    {user?.role === "admin" && (
+                        <Link to="/admin/contributions" className={linkClass}>
+                            Contributions
+                        </Link>
+                    )}
+
+                    {/* Member contributions */}
+                    {user?.role === "member" && (
+                        <Link to="/my-contributions" className={linkClass}>
+                            My Contributions
+                        </Link>
+                    )}
 
                     {user ? (
                         <>
@@ -88,6 +103,18 @@ const Navbar = () => {
                         <Link to="/" className={linkClass}>
                             Home
                         </Link>
+
+                        {user?.role === "admin" && (
+                            <Link to="/admin/contributions" className={linkClass}>
+                                Contributions
+                            </Link>
+                        )}
+
+                        {user?.role === "member" && (
+                            <Link to="/my-contributions" className={linkClass}>
+                                My Contributions
+                            </Link>
+                        )}
 
                         {user ? (
                             <>
