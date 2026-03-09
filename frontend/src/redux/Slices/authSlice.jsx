@@ -14,7 +14,7 @@ const parsedUser = storedUser ? JSON.parse(storedUser) : null;
 // The token is also retrieved from localStorage if it exists, otherwise it is set to null. This allows us to maintain the user's authentication state across page refreshes.
 //
 const initialState = {
-    user: parsedUser?.access_token ? jwtDecode(parsedUser.access_token) : null,
+    user: parsedUser ? parsedUser.user : null,
     token: parsedUser ? parsedUser.access_token : null,
     loading: false,
     error: null,
@@ -78,11 +78,11 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(login.fulfilled, (state, action) => {
-                const decodedToken = jwtDecode(action.payload.access_token);
                 state.loading = false;
-                state.user = jwtDecode(action.payload.access_token);
+                state.user = action.payload.user;
                 state.token = action.payload.access_token;
-                localStorage.setItem('user', JSON.stringify(action.payload));
+
+                localStorage.setItem("user", JSON.stringify(action.payload));
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
