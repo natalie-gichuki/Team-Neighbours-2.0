@@ -139,7 +139,7 @@ def get_attendance(member_id):
     return jsonify([contribution.to_dict() for contribution in contributions]), 200
 
 # Get all contributions
-@contribution_bp.route('/contributions', methods=['GET', 'OPTIONS'])
+@contribution_bp.route('/contribution', methods=['GET', 'OPTIONS'])
 @swag_from({
     'tags': ['Contribution'],
     'description': 'Get all contribution records',
