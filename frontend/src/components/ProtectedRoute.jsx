@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import Footer from "./Footer";
+
 
 // ProtectedRoute component checks if the user is authenticated and has the required role
 // If not authenticated, it redirects to the login page.
@@ -19,11 +19,11 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     // If user is authenticated and has the required role, render the children components.
     const user = useSelector((state) => state.auth.user);
 
-    if (!user || !user.isAuthenticated) {
+    if (!user) {
         return (
             <>
                 <Navigate to="/login" />;
-                <Footer />
+
             </>
         );
     }
@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
         return (
             <>
                 <Navigate to="/" />;
-                <Footer />
+
             </>
         );
     }
@@ -40,7 +40,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     return (
         <>
             {children}
-            <Footer />
+
         </>
     );
 };
