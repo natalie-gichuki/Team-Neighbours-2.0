@@ -37,14 +37,13 @@ const MemberList = () => {
 
             <h2 className="text-2xl font-semibold mb-4">Active Members</h2>
             <div className="overflow-x-auto mb-8">
-                <table className="min-w-full border-collapse border border-[var(--beige)]">
+                <table className="min-w-full border border-[var(--beige)] border-collapse text-left">
                     <thead className="bg-[var(--brown-medium)] text-white">
                         <tr>
-                            <th className="p-3">ID</th>
-                            <th className="p-3">Name</th>
-                            <th className="p-3">Email</th>
-                            <th className="p-3">Role</th>
-                            <th className="p-3">Actions</th>
+                            <th className="p-3 w-1/4">Name</th>
+                            <th className="p-3 w-1/4">Email</th>
+                            <th className="p-3 w-1/4">Role</th>
+                            <th className="p-3 w-1/4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,10 +52,9 @@ const MemberList = () => {
                                 key={member.id}
                                 className="odd:bg-[var(--cream)] even:bg-white border-t border-[var(--beige)]"
                             >
-                                <td className="p-3">{member.id}</td>
                                 <td className="p-3">{member.name}</td>
                                 <td className="p-3">{member.email}</td>
-                                <td className="p-3">{member.role}</td>
+                                <td className="p-3 capitalize">{member.role}</td>
                                 <td className="p-3">
                                     {member.role !== "admin" && (
                                         <button
@@ -72,17 +70,15 @@ const MemberList = () => {
                     </tbody>
                 </table>
             </div>
-
             <h2 className="text-2xl font-semibold mb-4">Disabled Members</h2>
             <div className="overflow-x-auto">
-                <table className="min-w-full border-collapse border border-[var(--beige)]">
+                <table className="min-w-full border border-[var(--beige)] border-collapse text-left">
                     <thead className="bg-[var(--brown-medium)] text-white">
                         <tr>
-                            <th className="p-3">ID</th>
-                            <th className="p-3">Name</th>
-                            <th className="p-3">Email</th>
-                            <th className="p-3">Role</th>
-                            <th className="p-3">Actions</th>
+                            <th className="p-3 w-1/4">Name</th>
+                            <th className="p-3 w-1/4">Email</th>
+                            <th className="p-3 w-1/4">Role</th>
+                            <th className="p-3 w-1/4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,7 +87,6 @@ const MemberList = () => {
                                 key={member.id}
                                 className="odd:bg-[var(--cream)] even:bg-white border-t border-[var(--beige)]"
                             >
-                                <td className="p-3">{member.id}</td>
                                 <td className="p-3">{member.name}</td>
                                 <td className="p-3">{member.email}</td>
                                 <td className="p-3">{member.role}</td>

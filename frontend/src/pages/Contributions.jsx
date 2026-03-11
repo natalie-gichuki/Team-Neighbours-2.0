@@ -43,7 +43,7 @@ const Contributions = () => {
                 <table className="min-w-full border-collapse">
                     <thead>
                         <tr className="bg-[var(--brown-medium)] text-white">
-                            <th className="p-3 text-left">ID</th>
+                        
                             <th className="p-3 text-left">Amount</th>
                             <th className="p-3 text-left">Date</th>
                         </tr>
@@ -56,7 +56,7 @@ const Contributions = () => {
                                     key={contribution.id}
                                     className="odd:bg-[var(--cream)] even:bg-white border-t border-[var(--beige)]"
                                 >
-                                    <td className="p-3 font-medium">{contribution.id}</td>
+                                   
                                     <td className="p-3">KSh {contribution.amount}</td>
                                     <td className="p-3">
                                         {new Date(contribution.date)
