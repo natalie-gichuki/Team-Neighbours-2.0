@@ -38,6 +38,47 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* Logged in quick actions */}
+            {user && (
+                <section className="py-16 px-6 text-center">
+
+                    <h2 className="text-3xl font-bold mb-8">
+                        Welcome back, {user.name}
+                    </h2>
+
+                    <div className="flex justify-center gap-6 flex-wrap">
+
+                        <Link
+                            to="/profile"
+                            className="bg-[var(--brown-dark)] text-[var(--cream)] px-6 py-3 rounded-full hover:opacity-90 transition"
+                        >
+                            View Profile
+                        </Link>
+
+                        {user.role === "admin" && (
+                            <Link
+                                to="/admin/contributions"
+                                className="bg-[var(--gold-accent)] text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
+                            >
+                                Manage Contributions
+                            </Link>
+                        )}
+
+                        {user.role === "member" && (
+                            <Link
+                                to="/my-contributions"
+                                className="bg-[var(--gold-accent)] text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
+                            >
+                                View My Contributions
+                            </Link>
+                        )}
+
+                    </div>
+
+                </section>
+            )}
+
+
             {/* Features Section */}
             <section className="py-20 px-6 md:px-20 bg-[var(--cream)]">
 
@@ -149,45 +190,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Logged in quick actions */}
-            {user && (
-                <section className="py-16 px-6 text-center">
-
-                    <h2 className="text-3xl font-bold mb-8">
-                        Welcome back, {user.name}
-                    </h2>
-
-                    <div className="flex justify-center gap-6 flex-wrap">
-
-                        <Link
-                            to="/profile"
-                            className="bg-[var(--brown-dark)] text-[var(--cream)] px-6 py-3 rounded-full hover:opacity-90 transition"
-                        >
-                            View Profile
-                        </Link>
-
-                        {user.role === "admin" && (
-                            <Link
-                                to="/admin/contributions"
-                                className="bg-[var(--gold-accent)] text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
-                            >
-                                Manage Contributions
-                            </Link>
-                        )}
-
-                        {user.role === "member" && (
-                            <Link
-                                to="/my-contributions"
-                                className="bg-[var(--gold-accent)] text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
-                            >
-                                View My Contributions
-                            </Link>
-                        )}
-
-                    </div>
-
-                </section>
-            )}
 
         </div>
     );
