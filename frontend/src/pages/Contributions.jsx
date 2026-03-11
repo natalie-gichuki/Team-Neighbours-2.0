@@ -1,58 +1,73 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContributionById } from "../redux/Slices/contributionsSlice";
+import { fetchMyContributions } from "../redux/Slices/contributionsSlice";
 
 const Contributions = () => {
-
     const dispatch = useDispatch();
 
     const { contributions, loading, error } = useSelector(
         (state) => state.contributions
     );
 
+
     const user = JSON.parse(localStorage.getItem("user")) || {};
 
     useEffect(() => {
-        if (user && user.id){
-            dispatch(fetchContributionById(user.id));
-        }
-        
-    }, [dispatch, user?.id]);
+        dispatch(fetchMyContributions());
+    }, [dispatch]);
 
-    const myContributions = Array.isArray(contributions)
-        ? contributions.filter(c => c.member_id === user.id) 
-        : [];
-
-    
+    const myContributions = Array.isArray(contributions) ? contributions : [];
 
     return (
-        <div>
-            <h2>My Contributions</h2>
+        <div className="p-8 bg-[var(--cream)] min-h-screen">
+            <h2 className="text-3xl font-bold mb-6 text-[var(--brown-dark)]">
+                My Contributions
+            </h2>
 
-            {loading && <p>Loading...</p>}
-            {error && <p>{error}</p>}
+            {/* STATUS */}
+            {loading && <p className="text-[var(--brown-dark)] mb-4">Loading...</p>}
+            {error && <p className="text-red-500 mb-4">{error}</p>}
 
-            <table border="1">
-
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {myContributions.map((contribution) => (
-                        <tr key={contribution.id}>
-                            <td>{contribution.id}</td>
-                            <td>{contribution.amount}</td>
-                            <td>{new Date(contribution.date).toISOString().split("T")[0]}</td>
+            {/* TABLE */}
+            <div className="overflow-x-auto bg-white rounded-2xl shadow-md">
+                <table className="min-w-full border-collapse">
+                    <thead>
+                        <tr className="bg-[var(--brown-medium)] text-white">
+                            <th className="p-3 text-left">ID</th>
+                            <th className="p-3 text-left">Amount</th>
+                            <th className="p-3 text-left">Date</th>
                         </tr>
-                    ))}
-                </tbody>
+                    </thead>
 
-            </table>
+                    <tbody>
+                        {myContributions.length > 0 ? (
+                            myContributions.map((contribution) => (
+                                <tr
+                                    key={contribution.id}
+                                    className="odd:bg-[var(--cream)] even:bg-white border-t border-[var(--beige)]"
+                                >
+                                    <td className="p-3 font-medium">{contribution.id}</td>
+                                    <td className="p-3">KSh {contribution.amount}</td>
+                                    <td className="p-3">
+                                        {new Date(contribution.date)
+                                            .toISOString()
+                                            .split("T")[0]}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td
+                                    colSpan="3"
+                                    className="text-center p-6 text-[var(--brown-dark)]"
+                                >
+                                    No contributions found.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
