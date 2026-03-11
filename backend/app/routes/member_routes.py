@@ -252,7 +252,7 @@ def enable_member(member_id):
 
 @member_bp.route('/member/<int:member_id>', methods=['PATCH', 'OPTIONS'])
 @jwt_required()
-@role_required('admin')
+@role_required('admin', 'member') # Both admin and member can update member details
 @swag_from({
     'tags': ['Member'],
     'description': 'Update member details',
