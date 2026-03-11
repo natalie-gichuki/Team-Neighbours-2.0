@@ -5,7 +5,7 @@ from app.utils.auth_helpers import role_required
 from app import db
 from flasgger.utils import swag_from
 
-member_bp = Blueprint('member_routes', __name__)
+member_bp = Blueprint('member', __name__)
 
 @member_bp.route('/member', methods=['GET', 'OPTIONS'])
 @jwt_required()
@@ -38,6 +38,8 @@ def get_members():
         "id": member.id,
         "name": member.name,
         "email": member.email,
+        "phone": member.phone,
+        "gender": member.gender,
         "role": member.role
     } for member in members]), 200
 
@@ -83,6 +85,8 @@ def get_member(member_id):
         "id": member.id,
         "name": member.name,
         "email": member.email,
+        "phone": member.phone,
+        "gender": member.gender,
         "role": member.role
     }), 200
 
@@ -148,7 +152,7 @@ def disable_member(member_id):
     return jsonify({"msg": f"Member {member.name} disabled"}), 200
 
 
-@member_bp.route('/members/disabled', methods=['GET', 'OPTIONS'])
+@member_bp.route('/member/disabled', methods=['GET', 'OPTIONS'])
 @jwt_required()
 @role_required('admin')
 @swag_from({
@@ -244,3 +248,79 @@ def enable_member(member_id):
     member.role = 'member'
     db.session.commit()
     return jsonify({"msg": f"Member {member.name} enabled"}), 200
+
+
+@member_bp.route('/member/<int:member_id>', methods=['PATCH', 'OPTIONS'])
+@jwt_required()
+@role_required('admin')
+@swag_from({
+    'tags': ['Member'],
+    'description': 'Update member details',
+    'security': [{'Bearer': []}],
+    'parameters': [
+        {
+            'name': 'member_id',    
+            'in': 'path',
+            'required': True,
+            'type': 'integer',
+            'description': 'ID of the member to update'
+        },
+        {
+            'name': 'body',
+            'in': 'body',   
+            'required': True,
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'name': {'type': 'string'},
+                    'email': {'type': 'string'},
+                    'phone': {'type': 'string'},
+                    'gender': {'type': 'string'},
+                    'password': {'type': 'string'},
+                    'role': {'type': 'string'}
+                }
+            }
+        }
+    ],
+    'responses': {
+        200: {
+            'description': 'Member details updated successfully',
+            'examples': {   
+                'application/json': {
+                    "msg": "Member details updated successfully"
+                }
+            }
+        },
+        404: {
+            'description': 'Member not found',
+            'examples': {
+                'application/json': {   
+                    "msg": "Member not found"
+                }
+            }
+        }
+    }
+})
+def update_member(member_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+    
+    member = Member.query.get(member_id)
+    if not member:
+        return jsonify({"msg": "Member not found"}), 404
+
+    data = request.get_json()
+    name = data.get('name')
+    email = data.get('email')
+    phone = data.get('phone')
+
+    if name:
+        member.name = name
+    if email:
+        member.email = email
+    if phone:
+        member.phone = phone
+
+    db.session.commit()
+    return jsonify({"msg": f"Member {member.name} updated successfully"}), 200
+
