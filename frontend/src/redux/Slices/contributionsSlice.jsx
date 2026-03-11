@@ -14,7 +14,9 @@ export const createContribution = createAsyncThunk(
     async (contributionData, thunkAPI) => {
         try {
             const response = await contributionService.createContribution(contributionData);
-            localStorage.setItem('contributions', JSON.stringify(response));
+
+            thunkAPI.dispatch(fetchContributions());
+            
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -27,7 +29,7 @@ export const fetchContributions = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await contributionService.getContributions();
-            localStorage.setItem('contributions', JSON.stringify(response));
+            
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -40,7 +42,7 @@ export const fetchContributionById = createAsyncThunk(
     async (id, thunkApi) => {
         try {
             const response = await contributionService.getContributionById(id);
-            localStorage.setItem('contribution', JSON.stringify(response));
+            
             return response;
         }
         catch (error) {
@@ -56,7 +58,9 @@ export const updateContribution = createAsyncThunk(
     async ({ id, contributionData }, thunkAPI) => {
         try {
             const response = await contributionService.updateContribution(id, contributionData);
-            localStorage.setItem('contribution', JSON.stringify(response));
+
+            thunkAPI.dispatch(fetchContributions());
+            
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -187,6 +191,7 @@ const contributionsSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             });
+
     },
 });
 
