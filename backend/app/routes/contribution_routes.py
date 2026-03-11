@@ -3,6 +3,8 @@ from app import db
 from app.models.contribution import Contribution
 from flasgger.utils import swag_from
 from app.utils.auth_helpers import role_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.models.members import Member
 
 contribution_bp = Blueprint('contribution', __name__) 
 
@@ -317,3 +319,62 @@ def delete_contribution(contribution_id):
     db.session.commit()
 
     return jsonify({"msg": "Contribution record deleted successfully"}), 200
+
+
+@contribution_bp.route('/contribution/my', methods=['GET'])
+@swag_from({ 
+    'tags': ['Contribution'],
+    'description': 'Get contribution records for the logged-in member',
+    'security': [{'Bearer': []}],
+    'responses': {
+        200: {
+            'description': 'Contribution records retrieved successfully',
+            'schema': {
+                'type': 'array',
+                'items': {
+                    'type': 'object',
+                    'properties': {
+                        'id': {'type': 'integer'},
+                        'member_id': {'type': 'integer'},
+                        'date': {'type': 'string', 'format': 'date'},
+                        'amount': {'type': 'number', 'format': 'float'}
+                    }
+                }
+            },
+            'examples': {
+                'application/json': [
+                    {
+                        'id': 1,
+                        'member_id': 1,
+                        'date': '2023-10-01',
+                        'amount': 100.00
+                    },
+                    {
+                        'id': 2,
+                        'member_id': 1,
+                        'date': '2023-10-02',
+                        'amount': 150.75
+                    }
+                ]
+            }
+        },
+        404: {
+            'description': 'Member not found',
+            'examples': {
+                'application/json': {
+                    'msg': 'Member not found'
+                }
+            }
+        }
+    }
+})
+@jwt_required()
+@role_required('admin', 'member')
+def get_my_contributions():
+    # get logged-in user id from JWT
+    member_id = get_jwt_identity()  # JWT stores member.id
+
+    # get contributions for that member
+    contributions = Contribution.query.filter_by(member_id=member_id).all()
+
+    return jsonify([c.to_dict() for c in contributions]), 200
