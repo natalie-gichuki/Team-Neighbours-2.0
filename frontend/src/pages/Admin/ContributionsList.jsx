@@ -9,11 +9,19 @@ import {
     deleteContribution
 } from "../../redux/Slices/contributionsSlice";
 
+import { FetchAllMembers } from "../../redux/Slices/membersSlice";
+
 const ContributionList = () => {
     const dispatch = useDispatch();
     const { contributions, loading, error } = useSelector(
         (state) => state.contributions
     );
+
+    const { members } = useSelector((state) => state.members);
+
+    useEffect(() => {
+        dispatch(FetchAllMembers());
+    }, [dispatch]);
 
     const [formData, setFormData] = useState({
         member_id: "",
@@ -66,9 +74,7 @@ const ContributionList = () => {
     };
 
     const handleDelete = (id) => {
-        if (window.confirm("Delete this contribution?")) {
-            dispatch(deleteContribution(id));
-        }
+        dispatch(deleteContribution(id));
     };
 
     // Summarize contributions by date
@@ -95,6 +101,11 @@ const ContributionList = () => {
         0
     );
 
+    const getMemberName = (id) => {
+        const member = members.find((m) => m.id === id);
+        return member ? member.name : id; // fallback to ID if name not found
+    };
+
     return (
         <div className="p-8 bg-[var(--cream)] min-h-screen">
             <h2 className="text-3xl font-bold mb-6 text-[var(--brown-dark)]">
@@ -106,15 +117,20 @@ const ContributionList = () => {
                 onSubmit={handleSubmit}
                 className="bg-white p-6 rounded-2xl shadow-md mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 items-end"
             >
-                <input
-                    type="text"
+                <select
                     name="member_id"
-                    placeholder="Member ID"
                     value={formData.member_id}
                     onChange={handleChange}
                     required
                     className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
-                />
+                >
+                    <option value="">Select Member</option>
+                    {(members || []).map((member) => (
+                        <option key={member.id} value={member.id}>
+                            {member.name}
+                        </option>
+                    ))}
+                </select>
                 <input
                     type="number"
                     name="amount"
@@ -149,24 +165,25 @@ const ContributionList = () => {
 
             {/* TABLE */}
             <div className="overflow-x-auto">
-                <table className="min-w-full border-collapse border border-[var(--beige)]">
+                <table className="min-w-full border-collapse border border-[var(--beige)] text-left">
                     <thead>
                         <tr className="bg-[var(--brown-medium)] text-white">
-
-                            <th className="p-3">Member</th>
-                            <th className="p-3">Amount</th>
-                            <th className="p-3">Date</th>
-                            <th className="p-3">Actions</th>
+                            <th className="p-3 text-left">Member</th>
+                            <th className="p-3 text-left">Amount</th>
+                            <th className="p-3 text-left">Date</th>
+                            <th className="p-3 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {(contributions || []).filter(c => c.id).map((contribution) => (
-                            <tr key={contribution.id} className="odd:bg-[var(--cream)] even:bg-white">
-
-                                <td className="p-3">{contribution.member_id}</td>
+                            <tr
+                                key={contribution.id}
+                                className="odd:bg-[var(--cream)] even:bg-white border-t border-[var(--beige)]"
+                            >
+                                <td className="p-3">{getMemberName(contribution.member_id)}</td>
                                 <td className="p-3">{contribution.amount}</td>
                                 <td className="p-3">{new Date(contribution.date).toLocaleDateString()}</td>
-                                <td className="p-3 flex gap-2">
+                                <td className="p-3 flex justify-end gap-2">
                                     <button
                                         onClick={() => handleEdit(contribution)}
                                         className="bg-[var(--brown-dark)] text-[var(--cream)] px-3 py-1 rounded-lg shadow-sm hover:opacity-90 transition"
