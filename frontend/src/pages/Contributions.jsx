@@ -18,11 +18,21 @@ const Contributions = () => {
 
     const myContributions = Array.isArray(contributions) ? contributions : [];
 
+    const totalContributions = myContributions.reduce((sum, c) => {
+        const amount = parseFloat(c.amount) || 0; // ensure amount is a number
+        return sum + amount;
+    }, 0);
+
     return (
         <div className="p-8 bg-[var(--cream)] min-h-screen">
             <h2 className="text-3xl font-bold mb-6 text-[var(--brown-dark)]">
                 My Contributions
             </h2>
+
+            <p className="text-xl font-semibold mb-4 text-[var(--brown-dark)]">
+                Total Contributions: KSh {totalContributions.toLocaleString()}
+            </p>
+
 
             {/* STATUS */}
             {loading && <p className="text-[var(--brown-dark)] mb-4">Loading...</p>}
