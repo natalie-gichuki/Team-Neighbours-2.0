@@ -23,6 +23,8 @@ const Contributions = () => {
         ? contributions.filter(c => c.member_id === user.id) 
         : [];
 
+    
+
     return (
         <div>
             <h2>My Contributions</h2>
@@ -45,7 +47,7 @@ const Contributions = () => {
                         <tr key={contribution.id}>
                             <td>{contribution.id}</td>
                             <td>{contribution.amount}</td>
-                            <td>{contribution.date}</td>
+                            <td>{new Date(contribution.date).toISOString().split("T")[0]}</td>
                         </tr>
                     ))}
                 </tbody>

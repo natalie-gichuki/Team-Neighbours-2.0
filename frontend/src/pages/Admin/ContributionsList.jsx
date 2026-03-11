@@ -58,6 +58,9 @@ const ContributionList = () => {
             member_id: contribution.member_id,
             amount: contribution.amount,
             date: contribution.date
+                ? new Date(contribution.date).toISOString().split("T")[0]
+                : ""
+                
         });
     };
 
@@ -125,7 +128,7 @@ const ContributionList = () => {
                 <table className="min-w-full border-collapse border border-[var(--beige)]">
                     <thead>
                         <tr className="bg-[var(--brown-medium)] text-white">
-                            <th className="p-3">ID</th>
+                            
                             <th className="p-3">Member</th>
                             <th className="p-3">Amount</th>
                             <th className="p-3">Date</th>
@@ -135,7 +138,7 @@ const ContributionList = () => {
                     <tbody>
                         {(contributions || []).filter(c => c.id).map((contribution) => (
                             <tr key={contribution.id} className="odd:bg-[var(--cream)] even:bg-white">
-                                <td className="p-3">{contribution.id}</td>
+                                
                                 <td className="p-3">{contribution.member_id}</td>
                                 <td className="p-3">{contribution.amount}</td>
                                 <td className="p-3">{new Date(contribution.date).toLocaleDateString()}</td>
