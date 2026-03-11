@@ -101,12 +101,30 @@ export const updateContribution = async (id, contributionData) => {
     return data;
 };
 
+export const getMyContributions = async () => {
+
+    const response = await fetch(`${API_URL}/contribution/my`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${getAuthHeaders()}`
+        }
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch contributions");
+    }
+
+    return await response.json();
+};
+
 export const contributionService = {
     createContribution,
     getContributions,
     getContributionById,
     deleteContribution,
-    updateContribution
+    updateContribution,
+    getMyContributions
 };
 
 export default contributionService;

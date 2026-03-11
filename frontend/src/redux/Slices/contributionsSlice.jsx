@@ -16,7 +16,7 @@ export const createContribution = createAsyncThunk(
             const response = await contributionService.createContribution(contributionData);
 
             thunkAPI.dispatch(fetchContributions());
-            
+
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -29,7 +29,7 @@ export const fetchContributions = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await contributionService.getContributions();
-            
+
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -42,7 +42,7 @@ export const fetchContributionById = createAsyncThunk(
     async (id, thunkApi) => {
         try {
             const response = await contributionService.getContributionById(id);
-            
+
             return response;
         }
         catch (error) {
@@ -60,7 +60,7 @@ export const updateContribution = createAsyncThunk(
             const response = await contributionService.updateContribution(id, contributionData);
 
             thunkAPI.dispatch(fetchContributions());
-            
+
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -76,6 +76,17 @@ export const deleteContribution = createAsyncThunk(
         try {
             await contributionService.deleteContribution(id);
             return id; // Return the ID of the deleted contribution
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+export const fetchMyContributions = createAsyncThunk(
+    "contributions/fetchMyContributions",
+    async (_, thunkAPI) => {
+        try {
+            return await contributionService.getMyContributions();
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
         }
@@ -190,7 +201,22 @@ const contributionsSlice = createSlice({
             .addCase(deleteContribution.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-            });
+            })
+            .addCase(fetchMyContributions.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+
+            .addCase(fetchMyContributions.fulfilled, (state, action) => {
+                state.loading = false;
+                state.contributions = action.payload;
+                state.error = null;
+            })
+
+            .addCase(fetchMyContributions.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
     },
 });
