@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Contributions from './pages/Contributions';
 import ContributionsList from './pages/Admin/ContributionsList';
+import MemberList from './pages/Admin/MemberList';
 
 // Route guard component to protect routes that require authentication
 import ProtectedRoute from './components/ProtectedRoute';
@@ -55,6 +56,16 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
               <ContributionsList />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ADMIN MEMBERS */}
+        <Route
+          path="/admin/members"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <MemberList />
             </ProtectedRoute>
           }
         />
