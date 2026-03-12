@@ -3,6 +3,8 @@ from app import db
 from app.models.fines import Fine
 from flasgger.utils import swag_from
 from app.utils.auth_helpers import role_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.models.members import Member
 
 fine_bp = Blueprint('fine', __name__) 
 
@@ -58,6 +60,7 @@ def record_fine():
     member_id = data.get('member_id')
     date = data.get('date')
     amount = data.get('amount')
+    status=data.get("status", "pending")
 
     if not member_id or not date or not amount:
         return jsonify({"msg": "Missing required fields: member_id, date, or amount"}), 400
@@ -139,7 +142,7 @@ def get_fine_records(member_id):
     return jsonify([fine.to_dict() for fine in fines]), 200
 
 # Get all fines
-@fine_bp.route('/fines', methods=['GET', 'OPTIONS'])
+@fine_bp.route('/fine', methods=['GET', 'OPTIONS'])
 @swag_from({
     'tags': ['Fine'],
     'description': 'Get all fine records',
@@ -257,6 +260,7 @@ def edit_fine(fine_id):
     member_id = data.get('member_id')
     date = data.get('date')
     amount = data.get('amount')
+    status=data.get("status", "pending")
 
     if member_id:
         fine.member_id = member_id
@@ -264,6 +268,8 @@ def edit_fine(fine_id):
         fine.date = date
     if amount:
         fine.amount = amount
+    if status:
+        fine.status = status
 
     db.session.commit()
 
@@ -317,3 +323,62 @@ def delete_fine(fine_id):
     db.session.commit()
 
     return jsonify({"msg": "Fine record deleted successfully"}), 200
+
+
+@fine_bp.route('/fine/my', methods=['GET'])
+@swag_from({ 
+    'tags': ['Fine'],
+    'description': 'Get fine records for the logged-in member',
+    'security': [{'Bearer': []}],
+    'responses': {
+        200: {
+            'description': 'Fine records retrieved successfully',
+            'schema': {
+                'type': 'array',
+                'items': {
+                    'type': 'object',
+                    'properties': {
+                        'id': {'type': 'integer'},
+                        'member_id': {'type': 'integer'},
+                        'date': {'type': 'string', 'format': 'date'},
+                        'amount': {'type': 'number', 'format': 'float'}
+                    }
+                }
+            },
+            'examples': {
+                'application/json': [
+                    {
+                        'id': 1,
+                        'member_id': 1,
+                        'date': '2023-10-01',
+                        'amount': 100.00
+                    },
+                    {
+                        'id': 2,
+                        'member_id': 1,
+                        'date': '2023-10-02',
+                        'amount': 150.75
+                    }
+                ]
+            }
+        },
+        404: {
+            'description': 'Member not found',
+            'examples': {
+                'application/json': {
+                    'msg': 'Member not found'
+                }
+            }
+        }
+    }
+})
+@jwt_required()
+@role_required('admin', 'member')
+def get_my_fines():
+    # get logged-in user id from JWT
+    member_id = get_jwt_identity()  # JWT stores member.id
+
+    # get fines for that member
+    fines = Fine.query.filter_by(member_id=member_id).all()
+
+    return jsonify([c.to_dict() for c in fines]), 200
