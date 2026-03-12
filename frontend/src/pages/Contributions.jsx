@@ -39,7 +39,7 @@ const Contributions = () => {
             {error && <p className="text-red-500 mb-4">{error}</p>}
 
             {/* TABLE */}
-            <div className="overflow-x-auto bg-white rounded-2xl shadow-md">
+            <div className="overflow-x-auto bg-white  shadow-md">
                 <table className="min-w-full border-collapse">
                     <thead>
                         <tr className="bg-[var(--brown-medium)] text-white">

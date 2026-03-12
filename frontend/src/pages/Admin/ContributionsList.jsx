@@ -164,7 +164,7 @@ const ContributionList = () => {
             {error && <p className="text-red-500 mb-4">{error}</p>}
 
             {/* TABLE */}
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto shadow-md">
                 <table className="min-w-full border-collapse border border-[var(--beige)] text-left">
                     <thead>
                         <tr className="bg-[var(--brown-medium)] text-white">
@@ -192,7 +192,7 @@ const ContributionList = () => {
                                     </button>
                                     <button
                                         onClick={() => handleDelete(contribution.id)}
-                                        className="bg-red-500 text-white px-3 py-1 rounded-lg shadow-sm hover:opacity-90 transition"
+                                        className="bg-red-800 text-white px-3 py-1 rounded-lg shadow-sm hover:opacity-90 transition"
                                     >
                                         Delete
                                     </button>
@@ -203,7 +203,7 @@ const ContributionList = () => {
                 </table>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 bg-white p-4 rounded-xl">
                 <h3 className="text-2xl font-bold mb-4">Total Contributions per Date</h3>
                 <p className="mb-4 text-lg font-semibold">Overall Total: KSh {totalContributions.toLocaleString()}</p>
 
@@ -213,7 +213,7 @@ const ContributionList = () => {
                         <XAxis dataKey="date" />
                         <YAxis />
                         <Tooltip formatter={(value) => `KSh ${value}`} />
-                        <Bar dataKey="total" fill="#8B5E3C" /> {/* brown-dark color */}
+                        <Bar dataKey="total" fill="#33090d" /> {/* brown-dark color */}
                     </BarChart>
                 </ResponsiveContainer>
             </div>
