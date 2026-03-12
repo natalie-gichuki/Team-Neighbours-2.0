@@ -7,6 +7,7 @@ class Loan(db.Model):
     member_id = db.Column(db.Integer, db.ForeignKey('members.id'), nullable=False)
     amount = db.Column(db.Numeric(10, 2), nullable=False)
     date = db.Column(db.Date, nullable=False)
+    status = db.Column(db.String(20), default="pending")
 
     member = db.relationship('Member', back_populates='loans')
 
@@ -18,5 +19,6 @@ class Loan(db.Model):
             'id': self.id,
             'member_id': self.member_id,
             'amount': self.amount,
-            'date': self.date
+            'date': self.date,
+            "status": self.status
         }
