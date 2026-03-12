@@ -81,6 +81,20 @@ const Navbar = () => {
                         </Link>
                     )}
 
+                    {/* Admin fine */}
+                    {user?.role === "admin" && (
+                        <Link to="/admin/fine" className={linkClass}>
+                            Fines
+                        </Link>
+                    )}
+
+                    {/* Member Fines */}
+                    {user?.role === "member" && (
+                        <Link to="/my-fines" className={linkClass}>
+                            My Fines
+                        </Link>
+                    )}
+
                     {user ? (
                         <>
 
@@ -150,6 +164,18 @@ const Navbar = () => {
                         {user?.role === "member" && (
                             <Link to="/my-contributions" className={linkClass}>
                                 My Contributions
+                            </Link>
+                        )}
+
+                        {user?.role === "admin" && (
+                            <Link to="/admin/fine" className={linkClass}>
+                                Fines
+                            </Link>
+                        )}
+
+                        {user?.role === "member" && (
+                            <Link to="/my-fines" className={linkClass}>
+                                My Fines
                             </Link>
                         )}
 
