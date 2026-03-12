@@ -19,6 +19,13 @@ swagger = Swagger()
 def create_app(config_name = "development"):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
+
+    # ---------------- JWT CONFIG ----------------
+    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=12)  # increase lifetime
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=7)
+
+
     app.config['SWAGGER'] = {
         'title': 'Team Neighbours 2.0 chama API',
         'uiversion': 3,
