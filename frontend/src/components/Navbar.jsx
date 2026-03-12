@@ -53,6 +53,20 @@ const Navbar = () => {
                         </Link>
                     )}
 
+                    {/* Admin Attendance */}
+                    {user?.role === "admin" && (
+                        <Link to="/admin/attendance" className={linkClass}>
+                            Attendance
+                        </Link>
+                    )}
+
+                    {/* Member Attendance */}
+                    {user?.role === "member" && (
+                        <Link to="/my-attendance" className={linkClass}>
+                            My Attendance
+                        </Link>
+                    )}
+
                     {/* Admin contributions */}
                     {user?.role === "admin" && (
                         <Link to="/admin/contributions" className={linkClass}>
@@ -69,17 +83,14 @@ const Navbar = () => {
 
                     {user ? (
                         <>
-                            <span className="text-sm italic opacity-90">
-                                {user.name}
-                            </span>
 
-                            <Link to="/profile" className={linkClass}>
+                            <Link to="/profile" className="border-2 rounded-2xl bg-white hover:text-[var(--gold-accent)] transition duration-300 font-medium hover:scale-150">
                                 👤
                             </Link>
 
                             <button
                                 onClick={handleLogout}
-                                className="hover:text-[var(--gold-accent)] transition"
+                                className="bg-red-800 p-2 rounded-xl hover:text-[var(--gold-accent)] transition"
                             >
                                 Logout
                             </button>
@@ -116,6 +127,20 @@ const Navbar = () => {
                             </Link>
                         )}
 
+                        {/*Admin Attendance page*/}
+                        {user?.role === "admin" && (
+                            <Link to="/admin/attendance" className={linkClass}>
+                                Attendance
+                            </Link>
+                        )}
+
+                        {user?.role === "member" && (
+                            <Link to="/my-attendance" className={linkClass}>
+                                My Attendance
+                            </Link>
+                        )}
+
+
                         {user?.role === "admin" && (
                             <Link to="/admin/contributions" className={linkClass}>
                                 Contributions
@@ -130,10 +155,7 @@ const Navbar = () => {
 
                         {user ? (
                             <>
-                                <span className="text-sm italic opacity-90">
-                                    {user.name}
-                                </span>
-
+                                
                                 <Link to="/profile" className={linkClass}>
                                     Profile
                                 </Link>
