@@ -9,6 +9,10 @@ import {
 
 import { FetchAllMembers } from "../../redux/Slices/membersSlice";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+
 const FineList = () => {
     const dispatch = useDispatch();
     const { fines, loading } = useSelector((state) => state.fine);
@@ -36,16 +40,35 @@ const FineList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (editingId) {
-            dispatch(updateFine({ id: editingId, finedata: form }));
-            setEditingId(null);
+            dispatch(updateFine({ id: editingId, finedata: form }))
+                .unwrap()
+                .then(() => {
+                    toast.success("Fine updated successfully!");
+                    setEditingId(null);
+                })
+                .catch(() => {
+                    toast.error("Failed to update fine.");
+                });
         } else {
-            dispatch(createFine(form));
+            dispatch(createFine(form))
+                .unwrap()
+                .then(() => {
+                    toast.success("Fine created successfully!");
+                })
+                .catch(() => {
+                    toast.error("Failed to create fine.");
+                });
         }
 
-        setForm({ member_id: "", amount: "", date: "", status: "pending" });
+        setForm({
+            member_id: "",
+            amount: "",
+            date: "",
+            status: "pending"
+        });
     };
-
     const handleEdit = (fine) => {
         if (fine.status === "paid") return;
         setEditingId(fine.id);
@@ -56,12 +79,35 @@ const FineList = () => {
             status: fine.status
         });
 
+        toast.info("You are editing this fine record. Update the form.");
+
         // Scroll to the form smoothly
         formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     const handleDelete = (id) => {
-        dispatch(deleteFine(id));
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#7a4b2a",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                dispatch(deleteFine(id))
+                    .unwrap()
+                    .then(() => {
+                        Swal.fire("Deleted!", "The fine has been deleted.", "success");
+                    })
+                    .catch(() => {
+                        Swal.fire("Error!", "Something went wrong.", "error");
+                    });
+
+            }
+        });
     };
 
     const pendingFines = fines?.filter(fine => fine.status === "pending") || [];
@@ -233,6 +279,20 @@ const FineList = () => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Toastify Container */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </div>
     );
 };

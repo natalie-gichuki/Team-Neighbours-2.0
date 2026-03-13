@@ -7,6 +7,10 @@ import {
     enableMember
 } from "../../redux/Slices/membersSlice";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+
 const MemberList = () => {
     const dispatch = useDispatch();
     const { members, disabledMembers, loading, error } = useSelector(
@@ -18,12 +22,40 @@ const MemberList = () => {
         dispatch(fetchDisabledMembers());
     }, [dispatch]);
 
-    const handleDisable = (id) => {
-        dispatch(disableMember(id));
-    };
+     const handleDisable = (id) => {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action cannot be undone!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#7a4b2a",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, disable!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+    
+                    dispatch(disableMember(id))
+                        .unwrap()
+                        .then(() => {
+                            Swal.fire("Disabled!", "The member has been disabled.", "success");
+                        })
+                        .catch(() => {
+                            Swal.fire("Error!", "Something went wrong.", "error");
+                        });
+    
+                }
+            });
+        };
 
     const handleEnable = (id) => {
-        dispatch(enableMember(id));
+        dispatch(enableMember(id))
+            .unwrap()
+            .then(() => {
+                toast.success("Member enabled successfully!");
+            })
+            .catch(() => {
+                toast.error("Failed to enable member.");
+            });
     };
 
     // Calculate summary totals
@@ -150,6 +182,20 @@ const MemberList = () => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Toastify Container */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </div>
     );
 };

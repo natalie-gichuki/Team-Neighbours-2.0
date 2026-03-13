@@ -8,6 +8,8 @@ import {
 
 import { FetchAllMembers } from '../../redux/Slices/membersSlice';
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminLoanList = () => {
 
@@ -38,9 +40,24 @@ const AdminLoanList = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editingId) {
-            dispatch(updateLoan({ id: editingId, loandata: form }));
+            dispatch(updateLoan({ id: editingId, loandata: form }))
+                .unwrap()
+                .then(() => {
+                    toast.success("Loan updated successfully!");
+                    setEditingId(null);
+                })
+                .catch(() => {
+                    toast.error("Failed to update loan.");
+                });
         } else {
-            dispatch(createLoan(form));
+            dispatch(createLoan(form))
+                .unwrap()
+                .then(() => {
+                    toast.success("Loan created successfully!");
+                })
+                .catch(() => {
+                    toast.error("Failed to create loan.");
+                });
         }
 
         setForm({
@@ -63,6 +80,7 @@ const AdminLoanList = () => {
             status: loan.status
         });
 
+        toast.info("You are editing this loan record. Update the form.");
         // Scroll to the form smoothly
         formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
@@ -232,6 +250,20 @@ const AdminLoanList = () => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Toastify Container */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </div>
     )
 };

@@ -59,6 +59,7 @@ const Navbar = () => {
                     {user?.role === "member" && <Link to="/my-fines" className={linkClass}>My Fines</Link>}
                     {user?.role === "admin" && <Link to="/admin/loan" className={linkClass}>Loans</Link>}
                     {user?.role === "member" && <Link to="/my-loans" className={linkClass}>My Loans</Link>}
+                    {user?.role === "admin" && <Link to="/admin/members" className={linkClass}>Members</Link>}
                 </div>
 
                 {/* Right: Profile & Logout or Sign In / Sign Up */}
@@ -73,7 +74,7 @@ const Navbar = () => {
                             </Link>
                             <button
                                 onClick={handleLogout}
-                                className="bg-red-800 border-2 border-black p-2 rounded-2xl hover:text-[var(--gold-accent)] transition"
+                                className="bg-red-800 border-2 border-red-900 p-2 rounded-2xl hover:text-[var(--gold-accent)] transition"
                             >
                                 Logout
                             </button>
@@ -138,6 +139,11 @@ const Navbar = () => {
                             {user?.role === "member" && (
                                 <Link to="/my-loans" className="py-3 hover:text-[var(--gold-accent)] transition duration-300 font-medium" onClick={() => setMenuOpen(false)}>My Loans</Link>
                             )}
+
+                            {user?.role === "admin" && (
+                                <Link to="/admin/members" className="py-3 hover:text-[var(--gold-accent)] transition duration-300 font-medium" onClick={() => setMenuOpen(false)}>Members</Link>
+                            )}
+
                         </div>
 
                         {/* Profile / Auth with top border */}

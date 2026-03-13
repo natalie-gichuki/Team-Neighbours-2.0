@@ -11,6 +11,10 @@ import {
 
 import { FetchAllMembers } from "../../redux/Slices/membersSlice";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+
 const ContributionList = () => {
     const dispatch = useDispatch();
     const { contributions, loading, error } = useSelector(
@@ -46,14 +50,26 @@ const ContributionList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (editId) {
-            dispatch(updateContribution({
-                id: editId,
-                contributionData: formData
-            }));
-            setEditId(null);
+            dispatch(updateContribution({ id: editId, contributionData: formData }))
+                .unwrap()
+                .then(() => {
+                    toast.success("Contribution updated successfully!");
+                    setEditId(null);
+                })
+                .catch(() => {
+                    toast.error("Failed to update contribution.");
+                });
         } else {
-            dispatch(createContribution(formData));
+            dispatch(createContribution(formData))
+                .unwrap()
+                .then(() => {
+                    toast.success("Contribution added successfully!");
+                })
+                .catch(() => {
+                    toast.error("Failed to add contribution.");
+                });
         }
 
         setFormData({
@@ -73,12 +89,35 @@ const ContributionList = () => {
                 : ""
 
         });
-         // Scroll to the form smoothly
+
+        toast.info("You are editing this contribution record. Update the form.");
+        // Scroll to the form smoothly
         formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     const handleDelete = (id) => {
-        dispatch(deleteContribution(id));
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#7a4b2a",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                dispatch(deleteContribution(id))
+                    .unwrap()
+                    .then(() => {
+                        Swal.fire("Deleted!", "The contribution has been deleted.", "success");
+                    })
+                    .catch(() => {
+                        Swal.fire("Error!", "Something went wrong.", "error");
+                    });
+
+            }
+        });
     };
 
     // Summarize contributions by date
@@ -251,6 +290,20 @@ const ContributionList = () => {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
+
+            {/* Toastify Container */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </div>
     );
 };

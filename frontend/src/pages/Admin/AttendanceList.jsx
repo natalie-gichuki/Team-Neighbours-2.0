@@ -7,8 +7,6 @@ import {
 } from "../../redux/Slices/attendanceSlice";
 import { FetchAllMembers } from "../../redux/Slices/membersSlice";
 import {
-    LineChart,
-    Line,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -18,6 +16,10 @@ import {
     Bar,
     ResponsiveContainer
 } from "recharts";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 
 const AttendanceList = () => {
@@ -52,15 +54,22 @@ const AttendanceList = () => {
         e.preventDefault();
 
         if (editingId) {
-            dispatch(updateAttendance({ id: editingId, attendanceData: form }));
-            setEditingId(null);
+            dispatch(updateAttendance({ id: editingId, attendanceData: form }))
+                .unwrap()
+                .then(() => {
+                    toast.success("Attendance updated successfully!");
+                    setEditingId(null);
+                })
+                .catch(() => toast.error("Failed to update attendance."));
         } else {
-            dispatch(createAttendance(form));
+            dispatch(createAttendance(form))
+                .unwrap()
+                .then(() => toast.success("Attendance added successfully!"))
+                .catch(() => toast.error("Failed to add attendance."));
         }
 
         setForm({ member_id: "", date: "", status: "present" });
     };
-
     const handleEdit = attendance => {
         setEditingId(attendance.id);
         setForm({
@@ -70,6 +79,8 @@ const AttendanceList = () => {
                 : "",
             status: attendance.status
         });
+
+         toast.info("You are editing this attendance record. Update the form.");
 
         // Scroll to the form smoothly
         formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -309,6 +320,20 @@ const AttendanceList = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Toastify Container */}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </div>
     );
 };
