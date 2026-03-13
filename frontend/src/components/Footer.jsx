@@ -1,125 +1,150 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
     Twitter,
     Instagram,
     Youtube,
     Linkedin,
 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Footer = () => {
 
     const handleLanguageChange = () => {
         // i18n.changeLanguage(selectedLang);
     };
+    const { user } = useSelector((state) => state.auth);
 
     return (
-        <footer className="bg-[var(--brown-dark)] text-[var(--cream)] border-t border-[var(--beige)] py-10 px-6">
+        <footer className="bg-gradient-to-r from-[var(--brown-dark)] via-[var(--brown-medium)] to-[var(--brown-dark)] text-[var(--cream)]">
 
-            <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 text-sm">
+            <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
 
-                {/* Left: Brand & Social */}
-                <div className="flex flex-col items-start space-y-4">
-
-                    <h2 className="text-xl font-bold tracking-wide">
+                {/* Brand Section */}
+                <div>
+                    <h2 className="text-2xl font-bold mb-4">
                         Team Neighbours
                     </h2>
 
-                    <p className="text-[var(--cream)]/80">
-                        Unveil Team Work
+                    <p className="text-[var(--cream)]/80 leading-relaxed">
+                        Empowering communities to grow wealth together through
+                        transparent contributions, loans, fines and attendance
+                        management.
                     </p>
+                </div>
 
-                    <div className="flex space-x-4">
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                            <Twitter className="h-5 w-5 hover:text-[var(--gold-accent)] transition" />
-                        </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                            <Instagram className="h-5 w-5 hover:text-[var(--gold-accent)] transition" />
-                        </a>
-                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
-                            <Youtube className="h-5 w-5 hover:text-[var(--gold-accent)] transition" />
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                            <Linkedin className="h-5 w-5 hover:text-[var(--gold-accent)] transition" />
-                        </a>
+
+                {/* Navigation Links */}
+                <div>
+
+                    <h3 className="text-lg font-semibold mb-4">
+                        Navigation
+                    </h3>
+
+                    <div className="flex flex-col space-y-2 text-[var(--cream)]/90">
+
+                        <Link to="/" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                            Home
+                        </Link>
+
+                        {user?.role === "admin" && (
+                            <Link to="/admin/contributions" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                Contributions
+                            </Link>
+                        )}
+
+                        {user?.role === "member" && (
+                            <Link to="/my-contributions" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                My Contributions
+                            </Link>
+                        )}
+
+                        {user?.role === "admin" && (
+                            <Link to="/admin/attendance" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                Attendance
+                            </Link>
+                        )}
+
+                        {user?.role === "member" && (
+                            <Link to="/my-attendance" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                My Attendance
+                            </Link>
+                        )}
+
+                        {user?.role === "admin" && (
+                            <Link to="/admin/fine" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                Fines
+                            </Link>
+                        )}
+
+                        {user?.role === "member" && (
+                            <Link to="/my-fines" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                My Fines
+                            </Link>
+                        )}
+
+                        {user?.role === "admin" && (
+                            <Link to="/admin/loan" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                Loans
+                            </Link>
+                        )}
+
+                        {user?.role === "member" && (
+                            <Link to="/my-loans" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                My Loans
+                            </Link>
+                        )}
+
+                        {user?.role === "admin" && (
+                            <Link to="/admin/members" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                Members
+                            </Link>
+                        )}
+
+                        {!user && (
+                            <>
+                                <Link to="/login" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                    Sign In
+                                </Link>
+
+                                <Link to="/register" className="hover:text-[var(--gold-accent)] transition hover:translate-x-1">
+                                    Register
+                                </Link>
+                            </>
+                        )}
+
                     </div>
+
                 </div>
 
-                {/* Middle: Newsletter */}
-                <div className="flex flex-col space-y-4">
 
-                    <h3 className="font-semibold text-[var(--cream)]">
-                        Join our Team
+                {/* Contact / Info */}
+                <div>
+
+                    <h3 className="text-lg font-semibold mb-4">
+                        Contact
                     </h3>
 
-                    <p className="text-[var(--cream)]/80">
-                        Grow with us.
-                    </p>
+                    <div className="space-y-2 text-[var(--cream)]/80">
 
-                    <form className="flex w-full max-w-sm">
+                        <p>Email: support@teamneighbours.com</p>
 
-                        <input
-                            type="email"
-                            placeholder="you@example.com"
-                            className="flex-1 p-2 rounded-l-lg border border-[var(--beige)] focus:outline-none focus:ring-1 focus:ring-[var(--gold-accent)] text-black"
-                        />
+                        <p>Phone: +254 700 000 000</p>
 
-                        <button
-                            type="submit"
-                            className="bg-[var(--gold-accent)] text-black px-4 py-2 rounded-r-lg hover:opacity-90 transition"
-                        >
-                            Subscribe
-                        </button>
+                        <p>Nairobi, Kenya</p>
 
-                    </form>
+                    </div>
+
                 </div>
 
-                {/* Right: Settings */}
-                <div className="flex flex-col space-y-4">
-
-                    <h3 className="font-semibold text-[var(--cream)]">
-                        Settings
-                    </h3>
-
-                    <label className="flex flex-col">
-
-                        <span className="mb-1 text-[var(--cream)]/80">
-                            Language
-                        </span>
-
-                        <select
-                            className="p-2 border border-[var(--beige)] rounded text-black"
-                            onChange={handleLanguageChange}
-                        >
-                            <option value='en'>English</option>
-                            <option value='fr'>Français</option>
-                            <option value='sw'>Swahili</option>
-                            <option value='cn'>Chinese</option>
-                            <option value='jp'>Japanese</option>
-                            <option value='de'>German</option>
-                            <option value='es'>Spanish</option>
-                        </select>
-
-                    </label>
-
-                    <label className="flex flex-col">
-
-                        <span className="mb-1 text-[var(--cream)]/80">
-                            Currency
-                        </span>
-
-                        <select className="p-2 border border-[var(--beige)] rounded text-black">
-                            <option>USD</option>
-                            <option>KES</option>
-                            <option>EUR</option>
-                        </select>
-
-                    </label>
-                </div>
             </div>
 
-            {/* Bottom Copyright */}
-            <div className="text-center text-xs mt-8 text-[var(--cream)]/70">
-                &copy; {new Date().getFullYear()} Team Neighbours. All rights reserved.
+
+            {/* Bottom Footer */}
+            <div className="border-t border-[var(--brown-medium)]/40 text-center py-4 text-[var(--cream)]/70 text-sm">
+
+                © {new Date().getFullYear()} Team Neighbours. All rights reserved.
+
             </div>
 
         </footer>
