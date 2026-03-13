@@ -16,6 +16,9 @@ import Attendances from './pages/Attendance';
 import FineList from './pages/Admin/FinesList';
 import Fine from './pages/Fines';
 
+import MemberLoans from './pages/Loans';
+import AdminLoanList from './pages/Admin/LoansList';
+
 // Route guard component to protect routes that require authentication
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -110,6 +113,26 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["member"]}>
               <Fine/>
+            </ProtectedRoute>
+          }
+        />
+
+        {/*ADMIN LOANS*/}
+        <Route 
+          path="/admin/loan"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLoanList/>
+            </ProtectedRoute>
+          }
+        />
+
+        {/*MEMBER LOANS*/}
+        <Route
+          path="my-loans"
+          element={
+            <ProtectedRoute allowedRoles={["member"]}>
+              <MemberLoans />
             </ProtectedRoute>
           }
         />

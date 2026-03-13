@@ -95,6 +95,18 @@ const Navbar = () => {
                         </Link>
                     )}
 
+                    {user?.role === "admin" && (
+                        <Link to="/admin/loan" className={linkClass}>
+                            Loans
+                        </Link>
+                    )}
+
+                    {user?.role === "member" && (
+                        <Link to="/my-loans" className={linkClass}>
+                            My Loans
+                        </Link>
+                    )}
+
                     {user ? (
                         <>
 
@@ -179,9 +191,21 @@ const Navbar = () => {
                             </Link>
                         )}
 
+                        {user?.role === "admin" && (
+                            <Link to="/admin/loan" className={linkClass}>
+                                Loans
+                            </Link>
+                        )}
+
+                        {user?.role === "member" && (
+                            <Link to="/my-loans" className={linkClass}>
+                                My Loans
+                            </Link>
+                        )}
+
                         {user ? (
                             <>
-                                
+
                                 <Link to="/profile" className={linkClass}>
                                     Profile
                                 </Link>
