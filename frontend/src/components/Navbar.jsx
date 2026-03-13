@@ -67,13 +67,13 @@ const Navbar = () => {
                         <>
                             <Link
                                 to="/profile"
-                                className="border-2 rounded-2xl bg-white hover:text-[var(--gold-accent)] transition duration-300 font-medium px-3 py-1"
+                                className="border-2 rounded-2xl text-[var(--brown-dark)] bg-white hover:text-[var(--gold-accent)] hover:scale-110 transition duration-300 font-medium px-3 py-1"
                             >
-                                👤
+                                👤Profile
                             </Link>
                             <button
                                 onClick={handleLogout}
-                                className="bg-red-800 p-2 rounded-xl hover:text-[var(--gold-accent)] transition"
+                                className="bg-red-800 border-2 border-black p-2 rounded-2xl hover:text-[var(--gold-accent)] transition"
                             >
                                 Logout
                             </button>
