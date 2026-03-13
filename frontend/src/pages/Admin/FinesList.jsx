@@ -12,7 +12,7 @@ import { FetchAllMembers } from "../../redux/Slices/membersSlice";
 const FineList = () => {
     const dispatch = useDispatch();
     const { fines, loading } = useSelector((state) => state.fine);
-    
+
     const { members } = useSelector((state) => state.members);
 
     const [editingId, setEditingId] = useState(null);
@@ -72,6 +72,39 @@ const FineList = () => {
     return (
         <div className="p-8 bg-[var(--cream)] min-h-screen">
             <h1 className="text-3xl font-bold mb-6 text-[var(--brown-dark)]">Fine Management</h1>
+
+            {/* Fines Summary Cards */}
+            <div className="flex flex-wrap gap-6 mb-8">
+                {/* Total Fines */}
+                <div className="flex-1 min-w-[200px] bg-gradient-to-r from-[var(--brown-dark)] to-[var(--brown-medium)] text-white p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300 flex items-center gap-4">
+                    <div className="text-5xl opacity-80">💰</div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-1">Total Fines</h3>
+                        <p className="text-3xl font-bold">{fines?.length || 0}</p>
+                        <span className="text-sm opacity-70">All fines in the system</span>
+                    </div>
+                </div>
+
+                {/* Pending Fines */}
+                <div className="flex-1 min-w-[200px] bg-gradient-to-r from-[var(--gold-accent)] to-[var(--brown-medium)] text-white p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300 flex items-center gap-4">
+                    <div className="text-5xl opacity-80">⏳</div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-1">Pending Fines</h3>
+                        <p className="text-3xl font-bold">{pendingFines.length}</p>
+                        <span className="text-sm opacity-70">Fines not yet paid</span>
+                    </div>
+                </div>
+
+                {/* Paid Fines */}
+                <div className="flex-1 min-w-[200px] bg-gradient-to-r from-[var(--brown-medium)] to-[var(--cream)] text-white p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300 flex items-center gap-4">
+                    <div className="text-5xl opacity-80">✅</div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-1">Paid Fines</h3>
+                        <p className="text-3xl font-bold">{paidFines.length}</p>
+                        <span className="text-sm opacity-70">Fines that are settled</span>
+                    </div>
+                </div>
+            </div>
 
             {/* FORM */}
             <form

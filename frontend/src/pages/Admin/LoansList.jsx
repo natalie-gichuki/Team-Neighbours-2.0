@@ -78,6 +78,39 @@ const AdminLoanList = () => {
         <div className="p-8 bg-[var(--cream)] min-h-screen">
             <h1 className="text-3xl font-bold mb-6 text-[var(--brown-dark)]">Loan Management</h1>
 
+            {/* Loan Summary Cards with Custom Colors */}
+            <div className="flex flex-wrap gap-6 mb-8">
+                {/* Total Loans */}
+                <div className="flex-1 min-w-[200px] bg-gradient-to-r from-[var(--brown-dark)] to-[var(--brown-medium)] text-white p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300 flex items-center gap-4">
+                    <div className="text-5xl opacity-80">💵</div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-1">Total Loans</h3>
+                        <p className="text-3xl font-bold">{loans?.length || 0}</p>
+                        <span className="text-sm opacity-70">All loans in the system</span>
+                    </div>
+                </div>
+
+                {/* Pending Loans */}
+                <div className="flex-1 min-w-[200px] bg-gradient-to-r from-[var(--gold-accent)] to-[var(--brown-medium)] text-white p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300 flex items-center gap-4">
+                    <div className="text-5xl opacity-80">⏳</div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-1">Pending Loans</h3>
+                        <p className="text-3xl font-bold">{pendingLoans.length}</p>
+                        <span className="text-sm opacity-70">Loans not yet paid</span>
+                    </div>
+                </div>
+
+                {/* Paid Loans */}
+                <div className="flex-1 min-w-[200px] bg-gradient-to-r from-[var(--brown-medium)] to-[var(--cream)] text-[var(--brown-dark)] p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300 flex items-center gap-4">
+                    <div className="text-5xl opacity-80">✅</div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-1">Paid Loans</h3>
+                        <p className="text-3xl font-bold">{paidLoans.length}</p>
+                        <span className="text-sm opacity-70">Loans that are settled</span>
+                    </div>
+                </div>
+            </div>
+
             {/* FORM */}
             <form
                 onSubmit={handleSubmit}
@@ -160,7 +193,7 @@ const AdminLoanList = () => {
                                         >
                                             Pay Loan
                                         </button>
-                                        
+
                                     </div>
                                 </td>
                             </tr>

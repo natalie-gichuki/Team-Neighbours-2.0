@@ -208,12 +208,42 @@ const ContributionList = () => {
                 <p className="mb-4 text-lg font-semibold">Overall Total: KSh {totalContributions.toLocaleString()}</p>
 
                 <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="date" />
-                        <YAxis />
-                        <Tooltip formatter={(value) => `KSh ${value}`} />
-                        <Bar dataKey="total" fill="#33090d" /> {/* brown-dark color */}
+                    <BarChart
+                        data={chartData}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                        <defs>
+                            <linearGradient id="totalGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor="var(--brown-dark)" stopOpacity={0.9} />
+                                <stop offset="100%" stopColor="var(--brown-dark)" stopOpacity={0.7} />
+                            </linearGradient>
+                        </defs>
+
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e0d8d0" />
+                        <XAxis
+                            dataKey="date"
+                            tick={{ fill: '#5a4638', fontSize: 14 }}
+                        />
+                        <YAxis
+                            tick={{ fill: '#5a4638', fontSize: 14 }}
+                            tickFormatter={(value) => `KSh ${value}`}
+                        />
+                        <Tooltip
+                            formatter={(value) => `KSh ${value}`}
+                            contentStyle={{
+                                backgroundColor: '#fff7e6',
+                                borderRadius: '10px',
+                                border: 'none',
+                                boxShadow: '0 0 10px rgba(0,0,0,0.1)'
+                            }}
+                            labelStyle={{ color: '#5a4638', fontWeight: 'bold' }}
+                        />
+                        <Bar
+                            dataKey="total"
+                            fill="url(#totalGradient)"
+                            radius={[5, 5, 0, 0]}
+                            animationDuration={1000}
+                        />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

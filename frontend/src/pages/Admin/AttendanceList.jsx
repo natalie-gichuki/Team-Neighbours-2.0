@@ -239,39 +239,80 @@ const AttendanceList = () => {
                 <h2 className="text-2xl font-bold text-[var(--brown-dark)]">
                     Attendance Analytics
                 </h2>
+                <div className="p-6 space-y-10">
+                    <h2 className="text-2xl font-bold text-[var(--brown-dark)]">
+                        Attendance Analytics
+                    </h2>
 
-                {/* Bar Chart: Attendance Per Member */}
-                <div className="bg-white p-4 rounded-xl shadow-md">
-                    <h3 className="text-xl font-semibold mb-4">Attendance Per Member</h3>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={barByMember}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="present" fill="#2a662c" />
-                            <Bar dataKey="absent" fill="#74302b" />
-                            <Bar dataKey="late" fill="#725f27" />
-                        </BarChart>
-                    </ResponsiveContainer>
-                </div>
+                    {/* Bar Chart: Attendance Per Member */}
+                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                        <h3 className="text-xl font-semibold mb-4 text-[var(--brown-dark)]">Attendance Per Member</h3>
+                        <ResponsiveContainer width="100%" height={350}>
+                            <BarChart data={barByMember} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#e0d8d0" />
+                                <XAxis dataKey="name" tick={{ fill: '#5a4638', fontSize: 14 }} />
+                                <YAxis tick={{ fill: '#5a4638', fontSize: 14 }} />
+                                <Tooltip
+                                    contentStyle={{ backgroundColor: '#fff7e6', borderRadius: '10px', border: 'none', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}
+                                    labelStyle={{ color: '#5a4638', fontWeight: 'bold' }}
+                                />
+                                <Legend wrapperStyle={{ color: '#5a4638', fontWeight: 'bold' }} />
+                                <Bar dataKey="present" fill="url(#presentGradient)" radius={[5, 5, 0, 0]} animationDuration={1000} />
+                                <Bar dataKey="absent" fill="url(#absentGradient)" radius={[5, 5, 0, 0]} animationDuration={1000} />
+                                <Bar dataKey="late" fill="url(#lateGradient)" radius={[5, 5, 0, 0]} animationDuration={1000} />
+                                {/* Gradient Definitions */}
+                                <defs>
+                                    <linearGradient id="presentGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="var(--brown-dark)" stopOpacity={0.9} />
+                                        <stop offset="100%" stopColor="var(--brown-dark)" stopOpacity={0.7} />
+                                    </linearGradient>
+                                    <linearGradient id="absentGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="#bb290c" stopOpacity={0.9} />
+                                        <stop offset="100%" stopColor="#5a0e07" stopOpacity={0.7} />
+                                    </linearGradient>
+                                    <linearGradient id="lateGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="#aa8e47" stopOpacity={0.9} />
+                                        <stop offset="100%" stopColor="#493806" stopOpacity={0.7} />
+                                    </linearGradient>
+                                </defs>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
 
-                {/* Bar Chart: Attendance Per Date */}
-                <div className="bg-white p-4 rounded-xl shadow-md">
-                    <h3 className="text-xl font-semibold mb-4">Attendance Per Date</h3>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={barByDate}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="present" fill="#2a662c" />
-                            <Bar dataKey="absent" fill="#74302b" />
-                            <Bar dataKey="late" fill="#7c651f" />
-                        </BarChart>
-                    </ResponsiveContainer>
+                    {/* Bar Chart: Attendance Per Date */}
+                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                        <h3 className="text-xl font-semibold mb-4 text-[var(--brown-dark)]">Attendance Per Date</h3>
+                        <ResponsiveContainer width="100%" height={350}>
+                            <BarChart data={barByDate} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#e0d8d0" />
+                                <XAxis dataKey="date" tick={{ fill: '#5a4638', fontSize: 14 }} />
+                                <YAxis tick={{ fill: '#5a4638', fontSize: 14 }} />
+                                <Tooltip
+                                    contentStyle={{ backgroundColor: '#fff7e6', borderRadius: '10px', border: 'none', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}
+                                    labelStyle={{ color: '#5a4638', fontWeight: 'bold' }}
+                                />
+                                <Legend wrapperStyle={{ color: '#5a4638', fontWeight: 'bold' }} />
+                                <Bar dataKey="present" fill="url(#presentGradient2)" radius={[5, 5, 0, 0]} animationDuration={1000} />
+                                <Bar dataKey="absent" fill="url(#absentGradient2)" radius={[5, 5, 0, 0]} animationDuration={1000} />
+                                <Bar dataKey="late" fill="url(#lateGradient2)" radius={[5, 5, 0, 0]} animationDuration={1000} />
+                                {/* Gradient Definitions */}
+                                <defs>
+                                    <linearGradient id="presentGradient2" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="var(--brown-dark)" stopOpacity={0.9} />
+                                        <stop offset="100%" stopColor="var(--brown-medium)" stopOpacity={0.7} />
+                                    </linearGradient>
+                                    <linearGradient id="absentGradient2" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="#a63f2b" stopOpacity={0.9} />
+                                        <stop offset="100%" stopColor="#74302b" stopOpacity={0.7} />
+                                    </linearGradient>
+                                    <linearGradient id="lateGradient2" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="#b5912f" stopOpacity={0.9} />
+                                        <stop offset="100%" stopColor="#7c651f" stopOpacity={0.7} />
+                                    </linearGradient>
+                                </defs>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                 </div>
             </div>
         </div>
