@@ -61,23 +61,40 @@ const Navbar = () => {
                     {user?.role === "member" && <Link to="/my-loans" className={linkClass}>My Loans</Link>}
                 </div>
 
-                {/* Right: Profile & Logout */}
-                {user && (
-                    <div className="hidden md:flex items-center gap-4">
-                        <Link
-                            to="/profile"
-                            className="border-2 rounded-2xl bg-white hover:text-[var(--gold-accent)] transition duration-300 font-medium px-3 py-1"
-                        >
-                            👤
-                        </Link>
-                        <button
-                            onClick={handleLogout}
-                            className="bg-red-800 p-2 rounded-xl hover:text-[var(--gold-accent)] transition"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                )}
+                {/* Right: Profile & Logout or Sign In / Sign Up */}
+                <div className="hidden md:flex items-center gap-4">
+                    {user ? (
+                        <>
+                            <Link
+                                to="/profile"
+                                className="border-2 rounded-2xl bg-white hover:text-[var(--gold-accent)] transition duration-300 font-medium px-3 py-1"
+                            >
+                                👤
+                            </Link>
+                            <button
+                                onClick={handleLogout}
+                                className="bg-red-800 p-2 rounded-xl hover:text-[var(--gold-accent)] transition"
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                to="/login"
+                                className={linkClass}
+                            >
+                                Sign In
+                            </Link>
+                            <Link
+                                to="/register"
+                                className="bg-[var(--gold-accent)] text-black font-semibold px-5 py-2 rounded-full hover:opacity-90 transition shadow-md"
+                            >
+                                Sign Up
+                            </Link>
+                        </>
+                    )}
+                </div>
             </div>
 
             {/*MOBILE MENU*/}
@@ -144,7 +161,7 @@ const Navbar = () => {
                                 </div>
                             ) : (
                                 <>
-                                    <Link to="/login" onClick={() => setMenuOpen(false)}>Sign In</Link>
+                                    <Link to="/login" onClick={() => setMenuOpen(false)} className="bg-[var(--brown-medium)] text-white font-semibold rounded-full w-fit px-4 py-2 shadow-md">Sign In</Link>
 
                                     <Link
                                         to="/register"
