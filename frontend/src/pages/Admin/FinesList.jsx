@@ -151,9 +151,9 @@ const FineList = () => {
                                     <div className="inline-flex gap-2">
                                         <button
                                             onClick={() => handleEdit(fine)}
-                                            className="bg-[var(--brown-dark)] text-[var(--cream)] px-3 py-1 rounded-lg shadow-sm hover:opacity-90 transition"
+                                            className="bg-green-900 text-[var(--cream)] px-3 py-1 rounded-lg shadow-sm hover:opacity-90 transition"
                                         >
-                                            Edit
+                                            Pay Fine
                                         </button>
                                         <button
                                             onClick={() => handleDelete(fine.id)}

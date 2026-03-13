@@ -188,7 +188,7 @@ const ContributionList = () => {
                                         onClick={() => handleEdit(contribution)}
                                         className="bg-[var(--brown-dark)] text-[var(--cream)] px-3 py-1 rounded-lg shadow-sm hover:opacity-90 transition"
                                     >
-                                        Edit
+                                        Edit Contribution
                                     </button>
                                     <button
                                         onClick={() => handleDelete(contribution.id)}

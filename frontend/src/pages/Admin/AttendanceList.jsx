@@ -71,11 +71,6 @@ const AttendanceList = () => {
         });
     };
 
-    const handleDelete = id => {
-        dispatch(deleteAttendance(id));
-    };
-
-
     useEffect(() => {
         if (attendances.length > 0) {
             // --- Attendance Per Member ---
@@ -220,15 +215,9 @@ const AttendanceList = () => {
                                             onClick={() => handleEdit(att)}
                                             className="bg-[var(--brown-dark)] text-[var(--cream)] px-3 py-1 rounded-lg shadow-sm hover:opacity-90 transition"
                                         >
-                                            Edit
+                                            Edit Attendance
                                         </button>
 
-                                        <button
-                                            onClick={() => handleDelete(att.id)}
-                                            className="bg-red-800 text-white px-3 py-1 rounded-lg shadow-sm hover:opacity-90 transition"
-                                        >
-                                            Delete
-                                        </button>
                                     </td>
                                 </tr>
                             ))
