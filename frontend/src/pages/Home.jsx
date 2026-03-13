@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Team from '../assets/Team.jpeg'
 
 const Home = () => {
     const { user } = useSelector((state) => state.auth);
@@ -8,35 +9,51 @@ const Home = () => {
         <div className="font-sans text-gray-800">
 
             {/* Hero Section */}
-            <section className="min-h-[70vh] md:min-h-[80vh] flex flex-col justify-center items-center text-center bg-gradient-to-r from-[#8B6B56] via-[#B58B6F] to-[#D4A373] p-8">
+            <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center text-center px-6 overflow-hidden">
 
-                <h1 className="text-5xl md:text-6xl font-bold text-[var(--cream)] mb-6 drop-shadow-lg">
-                    Welcome to Team Neighbours Group
-                </h1>
+                {/* Background Image */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                        backgroundImage: `url(${Team})`
+                    }}
+                ></div>
 
-                <p className="text-lg md:text-xl text-[var(--cream)]/90 max-w-xl mb-8">
-                    Join our community of changemakers and grow your wealth together.
-                    Manage contributions, loans, fines, meeting attendance and savings effortlessly.
-                </p>
+                {/* Dark Overlay (stronger for readability) */}
+                <div className="absolute inset-0 bg-black/80"></div>
 
-                {/* Only show buttons if user is NOT logged in */}
-                {!user && (
-                    <div className="flex gap-4 flex-wrap justify-center">
-                        <Link
-                            to="/register"
-                            className="bg-[var(--brown-medium)] text-white px-6 py-3 rounded-xl shadow-md hover:opacity-90 transition"
-                        >
-                            Get Started
-                        </Link>
+                {/* Content */}
+                <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
 
-                        <Link
-                            to="/login"
-                            className="bg-white text-[var(--brown-medium)] px-6 py-3 rounded-xl shadow-md hover:bg-[var(--cream)] transition"
-                        >
-                            Sign In
-                        </Link>
-                    </div>
-                )}
+                    <h1 className="text-4xl md:text-5xl font-bold text-[var(--cream)] mb-6 drop-shadow-lg leading-tight">
+                        Welcome to Team Neighbours Group
+                    </h1>
+
+                    <p className="text-lg md:text-xl text-[var(--cream)]/95 mb-8 text-white">
+                        Join our community of changemakers and grow your wealth together.
+                        Manage contributions, loans, fines, meeting attendance and savings effortlessly.
+                    </p>
+
+                    {!user && (
+                        <div className="flex flex-wrap justify-center gap-4">
+                            <Link
+                                to="/register"
+                                className="bg-[var(--brown-medium)] text-white px-6 py-3 rounded-xl shadow-md hover:opacity-90 transition"
+                            >
+                                Get Started
+                            </Link>
+
+                            <Link
+                                to="/login"
+                                className="bg-white text-[var(--brown-medium)] px-6 py-3 rounded-xl shadow-md hover:bg-[var(--cream)] transition"
+                            >
+                                Sign In
+                            </Link>
+                        </div>
+                    )}
+
+                </div>
+
             </section>
 
             {/* Logged in quick actions */}
