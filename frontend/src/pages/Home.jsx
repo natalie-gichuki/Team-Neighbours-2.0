@@ -8,7 +8,7 @@ const Home = () => {
         <div className="font-sans text-gray-800">
 
             {/* Hero Section */}
-            <section className="min-h-screen flex flex-col justify-center items-center text-center bg-gradient-to-r from-[#8B6B56] via-[#B58B6F] to-[#D4A373] p-8">
+            <section className="min-h-[70vh] md:min-h-[80vh] flex flex-col justify-center items-center text-center bg-gradient-to-r from-[#8B6B56] via-[#B58B6F] to-[#D4A373] p-8">
 
                 <h1 className="text-5xl md:text-6xl font-bold text-[var(--cream)] mb-6 drop-shadow-lg">
                     Welcome to Team Neighbours Group
@@ -19,23 +19,24 @@ const Home = () => {
                     Manage contributions, loans, fines, meeting attendance and savings effortlessly.
                 </p>
 
-                <div className="flex gap-4 flex-wrap justify-center">
+                {/* Only show buttons if user is NOT logged in */}
+                {!user && (
+                    <div className="flex gap-4 flex-wrap justify-center">
+                        <Link
+                            to="/register"
+                            className="bg-[var(--brown-medium)] text-white px-6 py-3 rounded-xl shadow-md hover:opacity-90 transition"
+                        >
+                            Get Started
+                        </Link>
 
-                    <Link
-                        to="/register"
-                        className="bg-[var(--brown-medium)] text-white px-6 py-3 rounded-xl shadow-md hover:opacity-90 transition"
-                    >
-                        Get Started
-                    </Link>
-
-                    <Link
-                        to="/login"
-                        className="bg-white text-[var(--brown-medium)] px-6 py-3 rounded-xl shadow-md hover:bg-[var(--cream)] transition"
-                    >
-                        Sign In
-                    </Link>
-
-                </div>
+                        <Link
+                            to="/login"
+                            className="bg-white text-[var(--brown-medium)] px-6 py-3 rounded-xl shadow-md hover:bg-[var(--cream)] transition"
+                        >
+                            Sign In
+                        </Link>
+                    </div>
+                )}
             </section>
 
             {/* Logged in quick actions */}
@@ -64,6 +65,33 @@ const Home = () => {
                             </Link>
                         )}
 
+                        {user.role === "admin" && (
+                            <Link
+                                to="/admin/loan"
+                                className="bg-[var(--brown-dark)] text-[var(--cream)] px-6 py-3 rounded-full hover:opacity-90 transition"
+                            >
+                                Manage Loans
+                            </Link>
+                        )}
+
+                        {user.role === "admin" && (
+                            <Link
+                                to="/admin/fine"
+                                className="bg-[var(--gold-accent)] text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
+                            >
+                                Manage Fines
+                            </Link>
+                        )}
+
+                        {user.role === "admin" && (
+                            <Link
+                                to="/admin/attendance"
+                                className="bg-[var(--brown-dark)] text-[var(--cream)] px-6 py-3 rounded-full hover:opacity-90 transition"
+                            >
+                                Manage Attendance
+                            </Link>
+                        )}
+
                         {user.role === "member" && (
                             <Link
                                 to="/my-contributions"
@@ -72,6 +100,36 @@ const Home = () => {
                                 View My Contributions
                             </Link>
                         )}
+
+                        {user.role === "member" && (
+                            <Link
+                                to="/my-loans"
+                                className="bg-[var(--brown-dark)] text-[var(--cream)] px-6 py-3 rounded-full hover:opacity-90 transition"
+                            >
+                                View My Loans
+                            </Link>
+                        )}
+
+                        {user.role === "member" && (
+                            <Link
+                                to="/my-fines"
+                                className="bg-[var(--gold-accent)] text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
+                            >
+                                View My Fines
+                            </Link>
+                        )}
+
+                        {user.role === "member" && (
+                            <Link
+                                to="/my-attendance"
+                                className="bg-[var(--brown-dark)] text-[var(--cream)] px-6 py-3 rounded-full hover:opacity-90 transition"
+                            >
+                                View My Attendance
+                            </Link>
+                        )}
+
+
+
 
                     </div>
 
