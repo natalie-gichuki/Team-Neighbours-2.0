@@ -3,6 +3,9 @@ from app import db
 from app.models.loans import Loan
 from flasgger.utils import swag_from
 from app.utils.auth_helpers import role_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.models.members import Member
+
 
 loan_bp = Blueprint('loan', __name__) 
 
@@ -48,7 +51,7 @@ loan_bp = Blueprint('loan', __name__)
     }
 })
 @role_required('admin')
-def record_fine():    
+def record_loan():    
     if request.method == 'OPTIONS':
         return '', 200
      
@@ -58,12 +61,13 @@ def record_fine():
     member_id = data.get('member_id')
     date = data.get('date')
     amount = data.get('amount')
+    status = data.get('status')
 
-    if not member_id or not date or not amount:
-        return jsonify({"msg": "Missing required fields: member_id, date, or amount"}), 400
+    if not member_id or not date or not amount or not status:
+        return jsonify({"msg": "Missing required fields: member_id, date, status or amount"}), 400
 
     # Create a new Loan record
-    loan = Loan(member_id=member_id, date=date, amount=amount)
+    loan = Loan(member_id=member_id, date=date, amount=amount, status=status)
 
     db.session.add(loan)
     db.session.commit()
@@ -139,7 +143,7 @@ def get_loan_records(member_id):
     return jsonify([loan.to_dict() for loan in loans]), 200
 
 # Get all loans
-@loan_bp.route('/loans', methods=['GET', 'OPTIONS'])
+@loan_bp.route('/loan', methods=['GET', 'OPTIONS'])
 @swag_from({
     'tags': ['Loan'],
     'description': 'Get all loan records',
@@ -240,7 +244,7 @@ def get_all_loans():
     }
 })
 @role_required('admin')
-def edit_fine(loan_id): 
+def edit_loan(loan_id): 
     if request.method == 'OPTIONS':
         return '', 200
       
@@ -254,6 +258,7 @@ def edit_fine(loan_id):
     member_id = data.get('member_id')
     date = data.get('date')
     amount = data.get('amount')
+    status = data.get('status')
 
     if member_id:
         loan.member_id = member_id
@@ -261,6 +266,8 @@ def edit_fine(loan_id):
         loan.date = date
     if amount:
         loan.amount = amount
+    if status:
+        loan.status = status
 
     db.session.commit()
 
@@ -314,3 +321,62 @@ def delete_loan(loan_id):
     db.session.commit()
 
     return jsonify({"msg": "Loan record deleted successfully"}), 200
+
+
+@loan_bp.route('/loan/my', methods=['GET'])
+@swag_from({ 
+    'tags': ['Loan'],
+    'description': 'Get loan records for the logged-in member',
+    'security': [{'Bearer': []}],
+    'responses': {
+        200: {
+            'description': 'Loan records retrieved successfully',
+            'schema': {
+                'type': 'array',
+                'items': {
+                    'type': 'object',
+                    'properties': {
+                        'id': {'type': 'integer'},
+                        'member_id': {'type': 'integer'},
+                        'date': {'type': 'string', 'format': 'date'},
+                        'amount': {'type': 'number', 'format': 'float'}
+                    }
+                }
+            },
+            'examples': {
+                'application/json': [
+                    {
+                        'id': 1,
+                        'member_id': 1,
+                        'date': '2023-10-01',
+                        'amount': 100.00
+                    },
+                    {
+                        'id': 2,
+                        'member_id': 1,
+                        'date': '2023-10-02',
+                        'amount': 150.75
+                    }
+                ]
+            }
+        },
+        404: {
+            'description': 'Member not found',
+            'examples': {
+                'application/json': {
+                    'msg': 'Member not found'
+                }
+            }
+        }
+    }
+})
+@jwt_required()
+@role_required('admin', 'member')
+def get_my_loans():
+    # get logged-in user id from JWT
+    member_id = get_jwt_identity()  # JWT stores member.id
+
+    # get fines for that member
+    loans = Loan.query.filter_by(member_id=member_id).all()
+
+    return jsonify([l.to_dict() for l in loans]), 200
