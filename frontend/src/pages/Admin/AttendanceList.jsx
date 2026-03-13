@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     fetchAllAttendances,
     createAttendance,
-    updateAttendance,
-    deleteAttendance
+    updateAttendance
 } from "../../redux/Slices/attendanceSlice";
 import { FetchAllMembers } from "../../redux/Slices/membersSlice";
 import {
@@ -26,6 +25,8 @@ const AttendanceList = () => {
     const { attendances, loading, error } = useSelector(state => state.attendance);
 
     const { members } = useSelector(state => state.members);
+
+    const formRef = useRef(null);
 
     const [barByMember, setBarByMember] = useState([]);
     const [barByDate, setBarByDate] = useState([]);
@@ -69,6 +70,9 @@ const AttendanceList = () => {
                 : "",
             status: attendance.status
         });
+
+        // Scroll to the form smoothly
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     useEffect(() => {
@@ -105,16 +109,13 @@ const AttendanceList = () => {
                 Attendance Management
             </h2>
 
-            {/* FORM */}
-            {/* FORM */}
-            <div className="bg-white rounded-2xl shadow-md p-6 mb-8 max-w-full">
+            <div ref={formRef} className="bg-white rounded-2xl shadow-md p-6 mb-8 max-w-full">
                 <h3 className="text-xl font-semibold mb-4 text-[var(--brown-dark)]">
                     {editingId ? "Edit Attendance" : "Add Attendance"}
                 </h3>
 
                 <form onSubmit={handleSubmit} className="flex flex-wrap items-end gap-4">
-                    {/* Member ID */}
-                    {/* Member Name */}
+
                     <div className="flex-1 min-w-[150px]">
                         <label className="block text-[var(--brown-dark)] font-medium mb-1">
                             Member
@@ -200,16 +201,9 @@ const AttendanceList = () => {
                                     key={att.id}
                                     className="odd:bg-[var(--cream)] even:bg-white border-t border-[var(--beige)]"
                                 >
-                                    {/* Member Name */}
                                     <td className="p-3">{members.find(m => m.id === att.member_id)?.name || att.member_id}</td>
-
-                                    {/* Date */}
                                     <td className="p-3">{new Date(att.date).toLocaleDateString()}</td>
-
-                                    {/* Status */}
                                     <td className="p-3 capitalize">{att.status}</td>
-
-                                    {/* Actions */}
                                     <td className="p-3 flex justify-end gap-2 flex-wrap">
                                         <button
                                             onClick={() => handleEdit(att)}

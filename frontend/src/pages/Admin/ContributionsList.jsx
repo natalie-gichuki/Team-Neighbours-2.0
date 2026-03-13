@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -18,6 +18,8 @@ const ContributionList = () => {
     );
 
     const { members } = useSelector((state) => state.members);
+
+    const formRef = useRef(null);
 
     useEffect(() => {
         dispatch(FetchAllMembers());
@@ -71,6 +73,8 @@ const ContributionList = () => {
                 : ""
 
         });
+         // Scroll to the form smoothly
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     const handleDelete = (id) => {
@@ -107,7 +111,7 @@ const ContributionList = () => {
     };
 
     return (
-        <div className="p-8 bg-[var(--cream)] min-h-screen">
+        <div ref={formRef} className="p-8 bg-[var(--cream)] min-h-screen">
             <h2 className="text-3xl font-bold mb-6 text-[var(--brown-dark)]">
                 Admin Contributions Management
             </h2>

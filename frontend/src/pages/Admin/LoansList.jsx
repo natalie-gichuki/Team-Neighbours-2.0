@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import {
     fetchAllLoans,
     updateLoan,
-    createLoan,
-    deleteLoan
+    createLoan
 } from "../../redux/Slices/loanSlice"
 
 import { FetchAllMembers } from '../../redux/Slices/membersSlice';
@@ -16,6 +15,8 @@ const AdminLoanList = () => {
 
     const { loans, loading } = useSelector((state) => state.loan);
     const { members } = useSelector((state) => state.members);
+
+    const formRef = useRef();
 
     const [editingId, setEditingId] = useState(null);
     const [form, setForm] = useState({
@@ -61,6 +62,9 @@ const AdminLoanList = () => {
             date: loan.date,
             status: loan.status
         });
+
+        // Scroll to the form smoothly
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     const pendingLoans = loans?.filter(loan => loan.status === "borrowed") || [];
@@ -78,7 +82,7 @@ const AdminLoanList = () => {
         <div className="p-8 bg-[var(--cream)] min-h-screen">
             <h1 className="text-3xl font-bold mb-6 text-[var(--brown-dark)]">Loan Management</h1>
 
-            {/* Loan Summary Cards with Custom Colors */}
+            {/* Loan Summary Cards*/}
             <div className="flex flex-wrap gap-6 mb-8">
                 {/* Total Loans */}
                 <div className="flex-1 min-w-[200px] bg-gradient-to-r from-[var(--brown-dark)] to-[var(--brown-medium)] text-white p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300 flex items-center gap-4">
@@ -111,59 +115,62 @@ const AdminLoanList = () => {
                 </div>
             </div>
 
-            {/* FORM */}
-            <form
-                onSubmit={handleSubmit}
-                className="bg-white p-6 rounded-2xl shadow-md mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 items-end"
-            >
-                <select
-                    name="member_id"
-                    value={form.member_id}
-                    onChange={handleChange}
-                    required
-                    className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+            <div ref={formRef} >
+
+                {/* FORM */}
+                <form
+                    onSubmit={handleSubmit}
+                    className="bg-white p-6 rounded-2xl shadow-md mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 items-end"
                 >
-                    <option value="">Select Member</option>
-                    {(members || []).map((member) => (
-                        <option key={member.id} value={member.id}>
-                            {member.name}
-                        </option>
-                    ))}
-                </select>
-                <input
-                    type="number"
-                    name="amount"
-                    placeholder="Amount"
-                    value={form.amount}
-                    onChange={handleChange}
-                    required
-                    className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
-                />
-                <input
-                    type="date"
-                    name="date"
-                    value={form.date}
-                    onChange={handleChange}
-                    required
-                    className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
-                />
-                <select
-                    name="status"
-                    value={form.status}
-                    onChange={handleChange}
-                    className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
-                >
-                    <option value="pending">Borrowed</option>
-                    <option value="paid">Paid</option>
-                </select>
-                <button
-                    type="submit"
-                    className={`px-6 py-2 rounded-xl font-semibold shadow-md transition col-span-1 md:col-span-4
+                    <select
+                        name="member_id"
+                        value={form.member_id}
+                        onChange={handleChange}
+                        required
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    >
+                        <option value="">Select Member</option>
+                        {(members || []).map((member) => (
+                            <option key={member.id} value={member.id}>
+                                {member.name}
+                            </option>
+                        ))}
+                    </select>
+                    <input
+                        type="number"
+                        name="amount"
+                        placeholder="Amount"
+                        value={form.amount}
+                        onChange={handleChange}
+                        required
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    />
+                    <input
+                        type="date"
+                        name="date"
+                        value={form.date}
+                        onChange={handleChange}
+                        required
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    />
+                    <select
+                        name="status"
+                        value={form.status}
+                        onChange={handleChange}
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    >
+                        <option value="pending">Borrowed</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                    <button
+                        type="submit"
+                        className={`px-6 py-2 rounded-xl font-semibold shadow-md transition col-span-1 md:col-span-4
             ${editingId ? "bg-[var(--gold-accent)] text-black hover:opacity-90" : "bg-[var(--brown-medium)] text-white hover:opacity-90"}`}
-                >
-                    {editingId ? "Update Loan" : "Create Loan"}
-                </button>
-            </form>
+                    >
+                        {editingId ? "Update Loan" : "Create Loan"}
+                    </button>
+                </form>
+            </div>
 
             {/* PENDING FINES TABLE */}
             <div className="overflow-x-auto shadow-md mb-8 bg-white rounded-2xl p-4">

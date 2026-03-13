@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     fetchAllFines,
@@ -14,6 +14,8 @@ const FineList = () => {
     const { fines, loading } = useSelector((state) => state.fine);
 
     const { members } = useSelector((state) => state.members);
+
+    const formRef = useRef(null);
 
     const [editingId, setEditingId] = useState(null);
     const [form, setForm] = useState({
@@ -53,6 +55,9 @@ const FineList = () => {
             date: fine.date ? new Date(fine.date).toISOString().split("T")[0] : "",
             status: fine.status
         });
+
+        // Scroll to the form smoothly
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     const handleDelete = (id) => {
@@ -106,59 +111,62 @@ const FineList = () => {
                 </div>
             </div>
 
-            {/* FORM */}
-            <form
-                onSubmit={handleSubmit}
-                className="bg-white p-6 rounded-2xl shadow-md mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 items-end"
-            >
-                <select
-                    name="member_id"
-                    value={form.member_id}
-                    onChange={handleChange}
-                    required
-                    className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+            <div ref={formRef}>
+
+                {/* FORM */}
+                <form
+                    onSubmit={handleSubmit}
+                    className="bg-white p-6 rounded-2xl shadow-md mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 items-end"
                 >
-                    <option value="">Select Member</option>
-                    {(members || []).map((member) => (
-                        <option key={member.id} value={member.id}>
-                            {member.name}
-                        </option>
-                    ))}
-                </select>
-                <input
-                    type="number"
-                    name="amount"
-                    placeholder="Amount"
-                    value={form.amount}
-                    onChange={handleChange}
-                    required
-                    className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
-                />
-                <input
-                    type="date"
-                    name="date"
-                    value={form.date}
-                    onChange={handleChange}
-                    required
-                    className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
-                />
-                <select
-                    name="status"
-                    value={form.status}
-                    onChange={handleChange}
-                    className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
-                >
-                    <option value="pending">Pending</option>
-                    <option value="paid">Paid</option>
-                </select>
-                <button
-                    type="submit"
-                    className={`px-6 py-2 rounded-xl font-semibold shadow-md transition col-span-1 md:col-span-4
+                    <select
+                        name="member_id"
+                        value={form.member_id}
+                        onChange={handleChange}
+                        required
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    >
+                        <option value="">Select Member</option>
+                        {(members || []).map((member) => (
+                            <option key={member.id} value={member.id}>
+                                {member.name}
+                            </option>
+                        ))}
+                    </select>
+                    <input
+                        type="number"
+                        name="amount"
+                        placeholder="Amount"
+                        value={form.amount}
+                        onChange={handleChange}
+                        required
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    />
+                    <input
+                        type="date"
+                        name="date"
+                        value={form.date}
+                        onChange={handleChange}
+                        required
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    />
+                    <select
+                        name="status"
+                        value={form.status}
+                        onChange={handleChange}
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    >
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                    <button
+                        type="submit"
+                        className={`px-6 py-2 rounded-xl font-semibold shadow-md transition col-span-1 md:col-span-4
             ${editingId ? "bg-[var(--gold-accent)] text-black hover:opacity-90" : "bg-[var(--brown-medium)] text-white hover:opacity-90"}`}
-                >
-                    {editingId ? "Update Fine" : "Create Fine"}
-                </button>
-            </form>
+                    >
+                        {editingId ? "Update Fine" : "Create Fine"}
+                    </button>
+                </form>
+            </div>
 
             {/* PENDING FINES TABLE */}
             <div className="overflow-x-auto shadow-md mb-8 bg-white rounded-2xl p-4">
