@@ -126,3 +126,5 @@ export const fineService = {
     deleteFine,
     getMemberFines
 }
+
+export default fineService;
