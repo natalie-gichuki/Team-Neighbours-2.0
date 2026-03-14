@@ -1,1 +1,1 @@
-export const API_URL = "http://localhost:5555";
+export const API_URL = "https://team-neighbours-2-0.onrender.com";
