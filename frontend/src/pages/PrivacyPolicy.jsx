@@ -2,7 +2,7 @@
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-[var(--cream)] py-12 px-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-2xl p-8">
+      <div className="max-w-4xl mx-auto bg-white shadow-lg p-8">
 
         <h1 className="text-3xl font-bold text-[var(--brown-dark)] mb-6">
           Privacy Policy
