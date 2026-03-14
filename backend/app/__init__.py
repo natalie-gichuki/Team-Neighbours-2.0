@@ -48,7 +48,8 @@ def create_app(config_name = "development"):
     #initialise CORS
     cors.init_app(app, resources={r"/*": {"origins": [
         "http://127.0.0.1:5173", 
-        "http://localhost:5173"
+        "http://localhost:5173",
+        "https://team-neighbours-chama.netlify.app"
     ]}}, supports_credentials=True)
 
     jwt.init_app(app)
