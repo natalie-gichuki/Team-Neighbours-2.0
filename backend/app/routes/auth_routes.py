@@ -164,6 +164,20 @@ def login():
             'id': member.id,
             'name': member.name,
             'email': member.email,
-            'role': member.role
+            'role': member.role,
+            'is_first_login': member.is_first_login
         }
     }), 200
+
+
+@auth_bp.route("/tutorial-seen", methods=["POST"])
+@jwt_required()
+def tutorial_seen():
+    member_id = get_jwt_identity()
+    user = Member.query.get(member_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    user.is_first_login = False
+    db.session.commit()
+    return jsonify({"message": "Tutorial marked as seen"}), 200

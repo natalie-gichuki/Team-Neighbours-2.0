@@ -1,5 +1,6 @@
 from app import db
 from sqlalchemy.orm import validates
+from sqlalchemy import Boolean
 import re
 
 
@@ -13,6 +14,7 @@ class Member(db.Model):
     gender = db.Column(db.String(10), nullable=False)
     password_hash = db.Column(db.Text, nullable=False)
     role = db.Column(db.String(50), nullable=False, default='member')
+    is_first_login = db.Column(Boolean, default=True)
     
 
     # VALIDATION
