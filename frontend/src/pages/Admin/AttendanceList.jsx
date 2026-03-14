@@ -240,17 +240,17 @@ const AttendanceList = () => {
                 </table>
             </div>
 
-            <div className="p-6 space-y-10">
+            <div className="p-4 space-y-10">
                 <h2 className="text-2xl font-bold text-[var(--brown-dark)]">
                     Attendance Analytics
                 </h2>
                 <div className="p-6 space-y-10">
-                    <h2 className="text-2xl font-bold text-[var(--brown-dark)]">
+                    <h2 className="text-xl font-bold text-[var(--brown-dark)]">
                         Attendance Analytics
                     </h2>
 
                     {/* Bar Chart: Attendance Per Member */}
-                    <div className="bg-white p-6 rounded-2xl shadow-lg">
+                    <div className="bg-white p-6 rounded-xl shadow-lg">
                         <h3 className="text-xl font-semibold mb-4 text-[var(--brown-dark)]">Attendance Per Member</h3>
                         <ResponsiveContainer width="100%" height={350}>
                             <BarChart data={barByMember} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
