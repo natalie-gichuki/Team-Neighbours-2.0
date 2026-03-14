@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../redux/Slices/authSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
     const [form, setForm] = useState({
@@ -10,9 +11,12 @@ const Register = () => {
         email: '',
         phone: '',
         password: '',
+        confirmPassword: '',
         gender: '',
         role: 'member',
     });
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -24,30 +28,48 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (form.password !== form.confirmPassword) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Password Mismatch',
+                text: 'Passwords do not match',
+            });
+            return;
+        }
+
         try {
             const result = await dispatch(register(form));
+
             if (result.meta.requestStatus === 'fulfilled') {
+
                 setForm({
                     name: '',
                     email: '',
                     phone: '',
                     password: '',
+                    confirmPassword: '',
                     gender: '',
                     role: 'member',
-                })
+                });
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Registration Successful',
                     text: 'Your account has been created. Please log in.',
                 });
+
                 navigate("/login");
             }
+
         } catch (error) {
+
             Swal.fire({
                 icon: 'error',
                 title: 'Registration Failed',
                 text: error.message || 'An error occurred. Please try again.',
             });
+
         }
     };
     return (
@@ -155,13 +177,13 @@ const Register = () => {
                         </div>
 
                         {/* Password */}
-                        <div className="mb-6">
+                        <div className="mb-6 relative">
                             <label className="block text-sm text-[var(--brown-dark)] mb-1">
                                 Password
                             </label>
 
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 placeholder="🔒 Enter your password"
                                 value={form.password}
@@ -170,7 +192,54 @@ const Register = () => {
                                 className="w-full px-4 py-3 border border-[var(--beige)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold-accent)] bg-white"
                                 required
                             />
+
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-9 text-sm text-gray-500"
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+
                         </div>
+                        <div className="mb-6 relative">
+
+                            <label className="block text-sm text-[var(--brown-dark)] mb-1">
+                                Confirm Password
+                            </label>
+
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="confirmPassword"
+                                placeholder="🔒 Confirm password"
+                                value={form.confirmPassword}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 border border-[var(--beige)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold-accent)] bg-white"
+                                required
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-9 text-sm text-gray-500"
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+
+                        </div>
+
+                        <label className="flex items-center gap-2 text-sm mt-4">
+                            <input type="checkbox" required />
+
+                            I agree to the
+                            <a href="/terms" className="text-[var(--brown-medium)] underline ml-1">
+                                Terms
+                            </a>
+                            and
+                            <a href="/privacy-policy" className="text-[var(--brown-medium)] underline ml-1">
+                                Privacy Policy
+                            </a>
+                        </label>
 
                         {/* Button */}
                         <button

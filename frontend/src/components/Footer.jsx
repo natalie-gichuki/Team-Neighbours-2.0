@@ -135,15 +135,38 @@ const Footer = () => {
 
                     </div>
 
+                    {/* Footer Links */}
+                    <div className="flex mt-10 text-md gap-6">
+
+                        <Link
+                            to="/terms"
+                            className="hover:underline hover:text-[var(--gold-accent)] transition"
+                        >
+                            Terms & Conditions
+                        </Link>
+
+                        <Link
+                            to="/privacy-policy"
+                            className="hover:underline hover:text-[var(--gold-accent)] transition"
+                        >
+                            Privacy Policy
+                        </Link>
+
+                    </div>
+
                 </div>
 
             </div>
 
 
             {/* Bottom Footer */}
-            <div className="border-t border-[var(--brown-medium)]/40 text-center py-4 text-[var(--cream)]/70 text-sm">
+            <div className="border-t border-[var(--brown-medium)]/40 py-4 flex flex-col items-center gap-2 text-[var(--cream)]/70 text-sm">
 
-                © {new Date().getFullYear()} Team Neighbours. All rights reserved.
+                <p className="text-center">
+                    © {new Date().getFullYear()} Team Neighbours. All rights reserved.
+                </p>
+
+
 
             </div>
 
