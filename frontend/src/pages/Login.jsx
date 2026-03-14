@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/Slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
     const [form, setForm] = useState({
@@ -13,6 +14,8 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { loading, error } = useSelector((state) => state.auth);
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -48,6 +51,15 @@ const Login = () => {
     return (
         <>
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F5E6CC] via-[#EAD2A8] to-[#D4A373] p-4">
+
+                {loading && (
+                    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+                        <div className="bg-white p-6 rounded-xl flex flex-col items-center shadow-lg">
+                            <div className="rounded-full border-4 border-gray-200 border-t-4 border-t-green-500 h-12 w-12 mb-4 animate-spin"></div>
+                            <p className="text-gray-700 font-medium">Logging you in...</p>
+                        </div>
+                    </div>
+                )}
 
                 <div className="bg-[#F5E6CC] rounded-3xl shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
 
@@ -90,10 +102,10 @@ const Login = () => {
                             </div>
 
                             {/* Password */}
-                            <div className="mb-6">
+                            <div className="mb-6 relative">
                                 <label className="block text-sm text-[#5C4033] mb-1">Password</label>
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     name="password"
                                     placeholder="🔒 Enter your password"
                                     value={form.password}
@@ -102,6 +114,14 @@ const Login = () => {
                                     required
                                     autoComplete="new-password"
                                 />
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-9 text-sm text-gray-500"
+                                >
+                                    {showPassword ? <FaEye /> :<FaEyeSlash /> }
+                                </button>
                             </div>
 
                             {/* Button */}

@@ -75,6 +75,15 @@ const Register = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[var(--cream)] p-4">
 
+            {loading && (
+                <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-xl flex flex-col items-center shadow-lg">
+                        <div className="rounded-full border-4 border-gray-200 border-t-4 border-t-green-500 h-12 w-12 mb-4 animate-spin"></div>
+                        <p className="text-gray-700 font-medium">Creating your account...</p>
+                    </div>
+                </div>
+            )}
+
             <div className="bg-[var(--cream)] rounded-3xl shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
 
                 {/* Left Side */}
@@ -198,7 +207,7 @@ const Register = () => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-3 top-9 text-sm text-gray-500"
                             >
-                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                {showPassword ? <FaEye /> :<FaEyeSlash /> }
                             </button>
 
                         </div>
@@ -223,7 +232,7 @@ const Register = () => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-3 top-9 text-sm text-gray-500"
                             >
-                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                {showPassword ? <FaEye /> :<FaEyeSlash /> }
                             </button>
 
                         </div>
