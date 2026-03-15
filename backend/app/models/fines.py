@@ -8,6 +8,7 @@ class Fine(db.Model):
     amount = db.Column(db.Numeric(10, 2), nullable= False)
     date = db.Column(db.Date, nullable=False)
     status = db.Column(db.String(20), default="pending")
+    reason = db.Column(db.String, nullable=False)
 
     member = db.relationship('Member', back_populates='fines')
 
@@ -20,5 +21,6 @@ class Fine(db.Model):
             'member_id': self.member_id,
             'amount': self.amount,
             'date': self.date,
-            "status": self.status
+            "status": self.status,
+            "reason": self.reason
         }

@@ -5,6 +5,7 @@ from flasgger.utils import swag_from
 from app.utils.auth_helpers import role_required
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.members import Member
+from app.utils.email_service import send_fine_email
 
 fine_bp = Blueprint('fine', __name__) 
 
@@ -23,9 +24,11 @@ fine_bp = Blueprint('fine', __name__)
                 'properties': {
                     'member_id': {'type': 'integer'},
                     'date': {'type': 'string', 'format': 'date'},
-                    'amount': {'type': 'number', 'format': 'float'}
+                    'amount': {'type': 'number', 'format': 'float'},
+                    'status': {'type': 'string'},
+                    'reason': {'type': 'string'}
                 },
-                'required': ['member_id', 'date', 'amount']
+                'required': ['member_id', 'date', 'amount', 'status', 'reason']
             }
 
         }
@@ -61,15 +64,18 @@ def record_fine():
     date = data.get('date')
     amount = data.get('amount')
     status=data.get("status", "pending")
+    reason=data.get('reason')
 
-    if not member_id or not date or not amount:
-        return jsonify({"msg": "Missing required fields: member_id, date, or amount"}), 400
+    if not member_id or not date or not amount or not status or not reason:
+        return jsonify({"msg": "Missing required fields: member_id, date, status, reason or amount"}), 400
 
     # Create a new Fine record
-    fine = Fine(member_id=member_id, date=date, amount=amount)
+    fine = Fine(member_id=member_id, date=date, amount=amount, status=status, reason=reason)
 
     db.session.add(fine)
     db.session.commit()
+
+    send_fine_email(member.email, member.name, fine_amount, reason)
 
     return jsonify({"msg": "Fine recorded successfully"}), 201
 
@@ -213,7 +219,9 @@ def get_all_fines():
                 'properties': {
                     'member_id': {'type': 'integer'},
                     'date': {'type': 'string', 'format': 'date'},
-                    'amount': {'type': 'number', 'format': 'float'}
+                    'amount': {'type': 'number', 'format': 'float'},
+                    'status': {'type': 'string'},
+                    'reason': {'type': 'string'}
                 }
             }
         }
@@ -261,6 +269,7 @@ def edit_fine(fine_id):
     date = data.get('date')
     amount = data.get('amount')
     status=data.get("status", "pending")
+    reason=data.get('reason')
 
     if member_id:
         fine.member_id = member_id
@@ -270,6 +279,8 @@ def edit_fine(fine_id):
         fine.amount = amount
     if status:
         fine.status = status
+    if reason is not None:
+        fine.reason = reason
 
     db.session.commit()
 
