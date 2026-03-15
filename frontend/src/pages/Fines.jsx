@@ -25,6 +25,7 @@ const Fine = () => {
             <tr>
               <th className="p-3">Date</th>
               <th className="p-3">Amount</th>
+              <th className="p-3">Reason</th>
               <th className="p-3">Status</th>
             </tr>
           </thead>
@@ -36,6 +37,7 @@ const Fine = () => {
               >
                 <td className="p-3">{new Date(fine.date).toLocaleDateString()}</td>
                 <td className="p-3">{fine.amount}</td>
+                <td className="p-3">{fine.reason}</td>
                 <td className="p-3 text-red-600 font-semibold">Pending</td>
               </tr>
             ))}
@@ -58,6 +60,7 @@ const Fine = () => {
             <tr>
               <th className="p-3">Date</th>
               <th className="p-3">Amount</th>
+              <th className="p-3">Reason</th>
               <th className="p-3">Status</th>
             </tr>
           </thead>
@@ -69,6 +72,7 @@ const Fine = () => {
               >
                 <td className="p-3">{new Date(fine.date).toLocaleDateString()}</td>
                 <td className="p-3">{fine.amount}</td>
+                <td className="p-3">{fine.reason}</td>
                 <td className="p-3 text-green-600 font-bold">Paid</td>
               </tr>
             ))}

@@ -26,11 +26,13 @@ const FineList = () => {
         member_id: "",
         amount: "",
         date: "",
-        status: "pending"
+        status: "pending",
+        reason: ""
     });
 
     useEffect(() => {
         dispatch(fetchAllFines());
+        console.log("Fetched fines:", fines);
         dispatch(FetchAllMembers());
     }, [dispatch]);
 
@@ -66,7 +68,8 @@ const FineList = () => {
             member_id: "",
             amount: "",
             date: "",
-            status: "pending"
+            status: "pending",
+            reason: ""
         });
     };
     const handleEdit = (fine) => {
@@ -76,7 +79,8 @@ const FineList = () => {
             member_id: fine.member_id,
             amount: fine.amount,
             date: fine.date ? new Date(fine.date).toISOString().split("T")[0] : "",
-            status: fine.status
+            status: fine.status,
+            reason: fine.reason
         });
 
         toast.info("You are editing this fine record. Update the form.");
@@ -190,10 +194,21 @@ const FineList = () => {
                     <input
                         type="date"
                         name="date"
+                        placeholder="Date"
                         value={form.date}
                         onChange={handleChange}
                         required
                         className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+                    />
+                    <input
+                        type="text"
+                        name="reason"
+                        placeholder="Reason"
+                        value={form.reason}
+                        onChange={handleChange}
+                        required
+                        className="border border-[var(--beige)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--brown-medium)]"
+
                     />
                     <select
                         name="status"
@@ -223,16 +238,19 @@ const FineList = () => {
                             <th className="p-3">Member</th>
                             <th className="p-3">Date</th>
                             <th className="p-3">Amount</th>
+                            <th className="p-3">Reason</th>
                             <th className="p-3">Status</th>
                             <th className="p-3 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {pendingFines.map(fine => (
+                            
                             <tr key={fine.id} className="odd:bg-[var(--cream)] even:bg-white border-t border-[var(--beige)]">
                                 <td className="p-3">{getMemberName(fine.member_id)}</td>
                                 <td className="p-3">{new Date(fine.date).toLocaleDateString()}</td>
                                 <td className="p-3">{fine.amount}</td>
+                                <td className="p-3">{fine.reason}</td>
                                 <td className="p-3 text-red-600 font-semibold">Pending</td>
                                 <td className="p-3 text-right">
                                     <div className="inline-flex gap-2">
@@ -264,6 +282,7 @@ const FineList = () => {
                             <th className="p-3">Member</th>
                             <th className="p-3">Date</th>
                             <th className="p-3">Amount</th>
+                            <th className="p-3">Reason</th>
                             <th className="p-3">Status</th>
                         </tr>
                     </thead>
@@ -273,6 +292,7 @@ const FineList = () => {
                                 <td className="p-3">{getMemberName(fine.member_id)}</td>
                                 <td className="p-3">{new Date(fine.date).toLocaleDateString()}</td>
                                 <td className="p-3">{fine.amount}</td>
+                                <td className="p-3">{fine.reason}</td>
                                 <td className="p-3 text-green-600 font-bold">Paid</td>
                             </tr>
                         ))}
