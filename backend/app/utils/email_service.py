@@ -49,6 +49,7 @@ Team Neighbours
     html_body = f"""
 <h2>🎉 Welcome to Team Neighbours!</h2>
 <p>Hi {name},</p>
+<p>Your account was successfully created.</p>
 <p>You can now access your account and:</p>
 <ul>
 <li>Track your contributions</li>
