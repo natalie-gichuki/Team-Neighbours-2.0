@@ -56,7 +56,7 @@ const Register = () => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Registration Successful',
-                    text: 'Your account has been created. Please log in.',
+                    text: 'Your account has been created and a welcominf email sent to your email account. Please log in.',
                 });
 
                 navigate("/login");
