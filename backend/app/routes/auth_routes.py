@@ -5,7 +5,9 @@ from app import db
 from flasgger.utils import swag_from
 from app.models.members import Member
 from app.utils.email_service import send_verification_email
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import decode_token
+from flask import redirect
+
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -197,8 +199,6 @@ def tutorial_seen():
     db.session.commit()
     return jsonify({"message": "Tutorial marked as seen"}), 200
 
-    from flask_jwt_extended import decode_token
-
 @auth_bp.route("/verify-email/<token>")
 def verify_email(token):
     try:
@@ -206,16 +206,17 @@ def verify_email(token):
         email = decoded["sub"]
 
         user = Member.query.filter_by(email=email).first()
-
         if not user:
             return jsonify({"msg": "User not found"}), 404
 
         user.email_verified = True
         db.session.commit()
 
+        # Send welcome email
         send_welcome_email(user.email, user.name)
 
-        return jsonify({"msg": "Email verified successfully"}), 200
+        # Redirect to frontend login page with a query param (optional)
+        return redirect(f"{os.getenv('FRONTEND_URL')}/auth/login?verified=true")
 
     except Exception:
         return jsonify({"msg": "Invalid or expired token"}), 400

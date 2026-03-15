@@ -5,6 +5,7 @@ from sendgrid.helpers.mail import Mail
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 FROM_EMAIL = os.getenv("FROM_EMAIL")
 FRONTEND_URL = os.getenv("FRONTEND_URL")
+BACKEND_URL = os.getenv("BACKEND_URL")
 
 
 def send_email(to_email, subject, text_content, html_content=None):
@@ -32,7 +33,7 @@ def send_email(to_email, subject, text_content, html_content=None):
 # ---------------------------
 def send_verification_email(email, name, token):
 
-    verification_link = f"{FRONTEND_URL}/verify_email/{token}"
+    verification_link = f"{BACKEND_URL}/verify_email/{token}"
 
     text_body = f"""
 Hi {name},
