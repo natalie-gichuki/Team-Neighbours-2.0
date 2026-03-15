@@ -5,7 +5,6 @@ from flasgger.utils import swag_from
 from app.utils.auth_helpers import role_required
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.members import Member
-from app.utils.email_service import send_fine_email
 
 fine_bp = Blueprint('fine', __name__) 
 
