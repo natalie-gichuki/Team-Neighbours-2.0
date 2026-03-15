@@ -4,8 +4,9 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from app import db
 from flasgger.utils import swag_from
 from app.models.members import Member
-
+from app.utils.email_service import send_welcome_email
 from flask_jwt_extended import decode_token
+from threading import Thread
 
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -100,6 +101,9 @@ def register():
 
     db.session.add(new_member)
     db.session.commit()
+
+     # Send welcome email asynchronously
+    Thread(target=send_welcome_email, args=(new_member.email, new_member.name)).start()
 
 
     return jsonify({"msg": "Member registered successfully"}), 200
