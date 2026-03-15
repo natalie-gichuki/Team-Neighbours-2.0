@@ -4,9 +4,8 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from app import db
 from flasgger.utils import swag_from
 from app.models.members import Member
-from app.utils.email_service import send_verification_email
+
 from flask_jwt_extended import decode_token
-from flask import redirect
 
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -102,13 +101,6 @@ def register():
     db.session.add(new_member)
     db.session.commit()
 
-    token = create_access_token(
-    identity=new_member.email,
-    additional_claims={"type": "email_verification"},
-    expires_delta=False  # or you can use timedelta(hours=1) for expiry
-)
-
-    send_verification_email(new_member.email, new_member.name, token)
 
     return jsonify({"msg": "Member registered successfully"}), 200
 
@@ -169,11 +161,6 @@ def login():
     if not member or not check_password_hash(member.password_hash, password):
         return jsonify({'message': 'Invalid email or password.'}), 401
 
-    if not member.email_verified:
-        return jsonify({
-            "message": "Please verify your email before logging in."
-        }), 403
-
     access_token = create_access_token(identity=member.id)
     return jsonify({
         'access_token': access_token,
@@ -199,24 +186,3 @@ def tutorial_seen():
     db.session.commit()
     return jsonify({"message": "Tutorial marked as seen"}), 200
 
-@auth_bp.route("/verify-email/<token>")
-def verify_email(token):
-    try:
-        decoded = decode_token(token)
-        email = decoded["sub"]
-
-        user = Member.query.filter_by(email=email).first()
-        if not user:
-            return jsonify({"msg": "User not found"}), 404
-
-        user.email_verified = True
-        db.session.commit()
-
-        # Send welcome email
-        send_welcome_email(user.email, user.name)
-
-        # Redirect to frontend login page with a query param (optional)
-        return redirect(f"{os.getenv('FRONTEND_URL')}/auth/login?verified=true")
-
-    except Exception:
-        return jsonify({"msg": "Invalid or expired token"}), 400
