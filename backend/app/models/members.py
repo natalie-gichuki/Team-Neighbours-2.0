@@ -15,6 +15,7 @@ class Member(db.Model):
     password_hash = db.Column(db.Text, nullable=False)
     role = db.Column(db.String(50), nullable=False, default='member')
     is_first_login = db.Column(Boolean, default=True)
+    email_verified = db.Column(Boolean, default=False)
     
 
     # VALIDATION
@@ -49,7 +50,7 @@ class Member(db.Model):
     def __repr__(self):
         return f'<Member {self.id} - {self.name}>'
     
-    def __repr__(self):
+    def to_dict(self):
         return{
             'id': self.id,
             'name': self.name,
