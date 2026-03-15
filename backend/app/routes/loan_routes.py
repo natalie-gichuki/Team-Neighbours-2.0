@@ -6,7 +6,6 @@ from app.utils.auth_helpers import role_required
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.members import Member
 
-
 loan_bp = Blueprint('loan', __name__) 
 
 @loan_bp.route('/loan', methods=['POST', 'OPTIONS'])

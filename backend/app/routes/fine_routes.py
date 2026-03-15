@@ -75,8 +75,6 @@ def record_fine():
     db.session.add(fine)
     db.session.commit()
 
-    send_fine_email(member.email, member.name, fine_amount, reason)
-
     return jsonify({"msg": "Fine recorded successfully"}), 201
 
 @fine_bp.route('/fine/<int:member_id>', methods=['GET', 'OPTIONS'])
