@@ -51,10 +51,10 @@ Team Neighbours
 <p>Hi {name},</p>
 <p>You can now access your account and:</p>
 <ul>
-<li>Track contributions</li>
-<li>Monitor fines</li>
-<li>View attendance</li>
-<li>Apply for loans</li>
+<li>Track your contributions</li>
+<li>Monitor your fines</li>
+<li>View your attendances</li>
+<li>Monitor your loans</li>
 </ul>
 <p>
     <a href="{FRONTEND_URL}/auth/login"
