@@ -61,7 +61,7 @@ const Login = () => {
                     </div>
                 )}
 
-                <div className="bg-[#F5E6CC] rounded-3xl shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
+                <div className="bg-[#F5E6CC] shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
 
                     {/* Left Section */}
                     <div className="hidden md:flex w-1/2 bg-gradient-to-br from-[#5C4033] to-[#8B5E3C] items-center justify-center text-[#F5E6CC] text-center p-8">

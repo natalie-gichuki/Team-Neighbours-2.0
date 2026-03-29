@@ -73,7 +73,7 @@ const Register = () => {
         }
     };
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[var(--cream)] p-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F5E6CC] via-[#EAD2A8] to-[#D4A373] p-4">
 
             {loading && (
                 <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
@@ -84,7 +84,7 @@ const Register = () => {
                 </div>
             )}
 
-            <div className="bg-[var(--cream)] rounded-3xl shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
+            <div className="bg-[var(--cream)] shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
 
                 {/* Left Side */}
                 <div className="hidden md:flex w-1/2 bg-gradient-to-br from-[var(--brown-dark)] to-[var(--brown-medium)] items-center justify-center text-[var(--cream)] text-center p-8">
