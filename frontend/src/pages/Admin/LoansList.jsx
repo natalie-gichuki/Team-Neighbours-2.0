@@ -192,7 +192,7 @@ const AdminLoanList = () => {
 
             {/* PENDING FINES TABLE */}
             <div className="overflow-x-auto shadow-md mb-8 bg-white rounded-2xl p-4">
-                <h2 className="text-2xl font-bold mb-4 text-[var(--brown-dark)]">Pending Fines</h2>
+                <h2 className="text-2xl font-bold mb-4 text-[var(--brown-dark)]">Pending Loans</h2>
                 <table className="min-w-full border-collapse border border-[var(--beige)] text-left">
                     <thead className="bg-[var(--brown-medium)] text-white">
                         <tr>
@@ -228,7 +228,7 @@ const AdminLoanList = () => {
             </div>
             {/* PAID LOANS TABLE */}
             <div className="overflow-x-auto shadow-md bg-white rounded-2xl p-4">
-                <h2 className="text-2xl font-bold mb-4 text-[var(--brown-dark)]">Paid Fines</h2>
+                <h2 className="text-2xl font-bold mb-4 text-[var(--brown-dark)]">Paid Loans</h2>
                 <table className="min-w-full border-collapse border border-[var(--beige)] text-left">
                     <thead className="bg-[var(--brown-medium)] text-white">
                         <tr>
