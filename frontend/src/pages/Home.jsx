@@ -26,7 +26,7 @@ const Home = () => {
                 <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
 
                     <h1 className="text-4xl md:text-5xl font-bold text-[var(--cream)] mb-6 drop-shadow-lg leading-tight">
-                        Welcome to Team Neighbours Group
+                        Welcome to Umoja Capital Track.
                     </h1>
 
                     <p className="text-lg md:text-xl text-[var(--cream)]/95 mb-8 text-white">
@@ -183,10 +183,6 @@ const Home = () => {
                         {
                             title: "Meeting Attendance",
                             desc: "Track member attendance and participation."
-                        },
-                        {
-                            title: "Savings Management",
-                            desc: "Monitor savings goals and milestones."
                         }
                     ].map((feature, index) => (
                         <div
@@ -237,10 +233,10 @@ const Home = () => {
 
                     <div className="bg-white border border-[var(--beige)] rounded-2xl p-8 shadow-md hover:shadow-lg transition">
                         <p className="italic mb-4 text-gray-700">
-                            "Team Neighbours helped me save consistently and access loans easily."
+                            "Umoja Capital Track helped me save consistently and access loans easily."
                         </p>
                         <span className="font-semibold text-[var(--brown-medium)]">
-                            ~ Jasmine W.
+                            ~ Winter J.
                         </span>
                     </div>
 
@@ -249,7 +245,7 @@ const Home = () => {
                             "Tracking contributions has never been easier."
                         </p>
                         <span className="font-semibold text-[var(--brown-medium)]">
-                            ~ John N.
+                            ~ Josephine N.
                         </span>
                     </div>
 
@@ -258,7 +254,7 @@ const Home = () => {
                             "The best Chama management platform I have used."
                         </p>
                         <span className="font-semibold text-[var(--brown-medium)]">
-                            ~ Pricilla W.
+                            ~ Mark W.
                         </span>
                     </div>
 

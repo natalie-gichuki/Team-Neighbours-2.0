@@ -23,7 +23,7 @@ const Footer = () => {
                 {/* Brand Section */}
                 <div>
                     <h2 className="text-2xl font-bold mb-4">
-                        Team Neighbours
+                        Umoja Capital Track
                     </h2>
 
                     <p className="text-[var(--cream)]/80 leading-relaxed">
@@ -127,7 +127,7 @@ const Footer = () => {
 
                     <div className="space-y-2 text-[var(--cream)]/80">
 
-                        <p>Email: support@teamneighbours.com</p>
+                        <p>Email: support@umojacapitaltrack.com</p>
 
                         <p>Phone: +254 700 000 000</p>
 
@@ -163,7 +163,7 @@ const Footer = () => {
             <div className="border-t border-[var(--brown-medium)]/40 py-4 flex flex-col items-center gap-2 text-[var(--cream)]/70 text-sm">
 
                 <p className="text-center">
-                    © {new Date().getFullYear()} Team Neighbours. All rights reserved.
+                    © {new Date().getFullYear()} Umoja Capital Track. All rights reserved.
                 </p>
 
 

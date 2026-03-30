@@ -36,7 +36,7 @@ const Navbar = () => {
                         to="/"
                         className="text-2xl font-extrabold tracking-wide hover:text-[var(--gold-accent)] transition"
                     >
-                        Team Neighbours
+                        UmojaCapitalTrack
                     </Link>
 
                     {/* Mobile Menu Button */}
